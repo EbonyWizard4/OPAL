@@ -1,22 +1,29 @@
-import json
 
+import kivy
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
 
-Hora = input('Digite o Horário da operação: ') #Recebe a hora
-Par = input('Digite a paridade da operação: ')    #Recebe a moeda
-Direcao = input('Digite a direção da operação: ') #Recebe o tipo de operação, PUT/CALL
-Time = input('Digite o timeframe da operação: ') #Recebe o Tempo da Operação em minutos
-Valor = input('Digite o valor da operação: ') #Recebe o Valor do Lance
-    
-def insereSinal(Hora, Par, Valor, Time, Direcao):
-    with open('sinal.json', 'r') as s:
-        sinal = json.load(s)
+class Manager(ScreenManager):
+    pass
 
-    sinal.apende([Hora, Par, Valor, Time, Direcao])
-    with open('sinal.json', 'w') as s:
-       json.dump(sinal, s)
-    
-    print(sinal)
-    print(type(sinal))
-    print(sinal[2])
+class TelaBotao(Screen):
+    def pop_up(self):
+        popup = Popup(title = 'meu pop up', content = Label(text = 'Aee!'))
+        popup.open()
+        
+class MyTxt(TextInput):
+    def insert_text(self, substring, from_undo=False):
+        txt = int(self.text)
+        print(txt)
+        if txt > 2:
+            substring = self.parent.parent.pop_up()
+        TextInput.insert_text(self, substring, from_undo)
 
-insereSinal(Hora, Par, Valor, Time, Direcao)
+class MyAPP(App):
+    def build(self):
+        return Manager()
+
+MyAPP().run()

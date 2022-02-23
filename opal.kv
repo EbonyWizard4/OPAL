@@ -1,0 +1,416 @@
+#:kivy 2.0.0
+
+<Gerenciador>:
+    TelaLogin:
+    TelaApp:
+
+
+<TelaLogin>:
+    name: 'TelaLogin'
+    BoxLayout:# principal
+        orientation: 'vertical'
+        padding:100
+        spacing:20
+        Label: #Titulo
+            text: 'Insira as credenciais \nusadas na plataforma \nda IQoption'
+            font_size: 50
+        BoxLayout: #Elementos de Tela
+            orientation: 'vertical'
+            padding: 10
+            spacing: 30
+            TextInput: #Campo Login
+                id: Login
+                hint_text: 'e-mail utilizado na IQoption'
+            TextInput: #Campo Senha
+                id: Senha
+                hint_text: 'Senha utilizada na IQoption'
+                password: True
+        BoxLayout: #Botões
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 60
+            padding: 10
+            spacing: 10
+            BoxLayout:
+                orientation:
+            Button:
+                text:'Entrar'
+                on_release: root.login()
+            BoxLayout:
+                orientation:
+
+<TelaApp>:
+    name:'TelaApp'
+    BoxLayout: #principal
+        orientation:'vertical'
+        id: Principal
+        ActionBar:
+            id: ActionBar
+            size_hint_y: 0.1
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                ActionButton:
+                    id:Usuario
+                    text:'Banca Real'                
+                ActionGroup:
+                    id:Banca
+                    mode: 'spinner'
+                    text: 'Olá Usuário: Fulano de Tal'
+                    ActionButton:
+                        id:BancaReal
+                        text:'Banca Real'
+                    ActionButton:
+                        id:BancaTreino
+                        text:'Treinamento'
+        ScreenManager:
+            id: sm
+            TelaMenu:
+            TelaSinais:
+            TelaTrade:
+
+
+<TelaMenu>:
+    name: 'TelaMenu'
+    BoxLayout: #Principal
+        orientation:'vertical'
+        BoxLayout: #Elemento de Tela
+            orientation:'vertical'
+            padding: 100
+            Label: #Título
+                text: 'O que deseja fazer?'
+                font_size: 50
+            BoxLayout: #Botões
+                padding: 10
+                spacing:20
+                Button:
+                    text:'Inserir Sinais'
+                    font_size: 25
+                    on_release: root.parent.current = 'TelaSinais'
+                Button:
+                    text:'Start Trade'
+                    font_size: 25
+                    on_release: root.parent.current = 'TelaTrade'
+
+<TelaSinais>:
+    name: 'TelaSinais'
+    BoxLayout: #Principal
+        orientation:'vertical'
+
+        Label: #Título
+            text:'Inserir Sinal'
+            font_size: 30
+            size_hint_y: None
+            height: 40
+
+        BoxLayout: #Elementos de Tela
+            padding: 10
+            spacing: 10
+            BoxLayout: #Coluna 1
+                orientation:'vertical'
+                spacing: 10
+
+                BoxLayout: #Horário
+                    orientation: 'vertical'
+                    padding: 10
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    
+                    Label:
+                        text:'Horario'
+                        font_size: 20
+                        size_hint_y:None
+                        height:20
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        padding:30
+                        BoxLayout:
+                        MyTextInput:
+                            id: Hora
+                        MyTextInput:
+                            text:':'
+                            size: 20,55
+                            readonly: True
+                        MyTextInput:
+                            id: Minuto
+                        BoxLayout:
+
+                BoxLayout: #Direção
+                    orientation: 'horizontal'
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    BoxLayout:
+                        orientation:'vertical'
+                        padding: 10
+                        Label:
+                            text:'Direção'
+                            font_size: 20
+                            size_hint_y:None
+                            height:20
+                        BoxLayout:
+                            padding:30
+                            BoxLayout:
+                            Spinner:
+                                text: 'CALL'
+                                values: 'CALL', 'PUT'
+                                size_hint: None, None
+                                size: 150, 55
+                            BoxLayout:
+                                orientation:
+
+                BoxLayout: #Valor
+                    orientation: 'horizontal'
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    BoxLayout:
+                        orientation:'vertical'
+                        padding: 10
+                        Label:
+                            text:'Valor'
+                            font_size: 20
+                            size_hint_y:None
+                            height:20
+
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            padding:30
+                            BoxLayout:
+                            MyTextInput:
+                                text:'R$'
+                                size: 55,55
+                                readonly: True
+                            TextInput:
+                                id: Valor
+                                background_color: 0.3, 0.3, 0.3, 0.3
+                                write_tab: False
+                                foreground_color: 0.8, 0.8, 0.8, 0.8
+                                size_hint: None, None
+                                size: 150, 55
+                                multiline:False
+                                font_size: 30
+                                hint_text: '02.00'
+                                halign: 'center'
+                                input_filter: 'float'
+                            BoxLayout:
+                        
+            
+            BoxLayout:#Coluna 2
+                orientation:'vertical'
+                spacing: 10
+
+                BoxLayout: #Paridade
+                    orientation: 'horizontal'
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    BoxLayout:
+                        orientation:'vertical'
+                        padding: 10
+                        Label:
+                            text:'Paridade'
+                            font_size: 20
+                            size_hint_y:None
+                            height:20
+                        BoxLayout:
+                            padding:30
+                            BoxLayout:
+                            Spinner:
+                                text: 'EURUSD'
+                                values: 'EURGBP', 'EURJPY', 'EURCAD', 'GBPUSD', 'GBPJPY', 'GBPCAD', 'USDJPY', 'USDCAD'
+                                size_hint: None, None
+                                size: 150, 55
+                            BoxLayout:
+                                orientation:
+
+                BoxLayout: #Time_Frame
+                    orientation: 'horizontal'
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    BoxLayout:
+                        orientation:'vertical'
+                        padding: 10
+                        Label:
+                            text:'Time Frame'
+                            font_size: 20
+                            size_hint_y:None
+                            height:20
+                        BoxLayout:
+                            padding:30
+                            BoxLayout:
+                            Spinner:
+                                text: '1'
+                                values: '1', '5','15'
+                                size_hint: None, None
+                                size: 150, 55
+                            BoxLayout:
+                                orientation:
+                    
+                BoxLayout: #Banca_Real
+                    orientation: 'horizontal'
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    BoxLayout:
+                        orientation:'vertical'
+                        padding: 10
+                        Label:
+                            text:'Banca Real'
+                            font_size: 20
+                            size_hint_y:None
+                            height:20
+
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            padding:30
+                            BoxLayout:
+                            Switch:
+                                disabled: True
+
+                            BoxLayout:
+        BoxLayout: #Botões
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 60
+            padding: 10
+            spacing: 10
+            BoxLayout:
+                orientation:
+            Button:
+                text:'Menu'
+                on_release: root.parent.current='TelaMenu'
+            Button:
+                text:'Salvar'
+            Button:
+                text:'Start Trade'
+                on_release: root.parent.current='TelaTrade'
+            BoxLayout:
+                orientation:
+
+
+<TelaTrade>:
+    name:'TelaTrade'
+    BoxLayout: #Principal
+        orientation:'vertical'
+
+        Label: #Título
+            text:'Start Trade'
+            font_size: 30
+            size_hint_y: None
+            height: 40
+        BoxLayout:# Elementos de Tela
+            orientation:'horizontal'
+            padding: 10
+            spacing: 10
+            BoxLayout: #informativo
+                orientation:'vertical'
+                spacing: 10
+                BoxLayout:
+                    orientation:'vertical'
+                    id: Trade
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    Label:
+                        text:'Próximo Trade às:'
+                    Label:
+                        id:HoraTrade
+                        text:'00:00'
+
+                BoxLayout:
+                    orientation:'vertical'
+                    id: Cronometro
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    Label:
+                        text:'Cronometro'
+                    Label:
+                        id:Relógio   
+                        text:'00:00'                       
+            ScrollView: #lista de Sinais
+                BoxLayout:
+                    id: box
+                    orientation: 'vertical'
+                    size_hint_y:None
+                    height:self.minimum_height
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+        BoxLayout: #Botões
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 60
+            padding: 10
+            spacing: 10
+            BoxLayout:
+                orientation:
+            Button:
+                text:'Menu'
+                on_release: root.parent.current='TelaMenu'
+            Button:
+                text:'Start'
+                on_release:
+            Button:
+                text:'Inserir Sinais'
+                on_release: root.parent.current='TelaSinais'
+            BoxLayout:
+                orientation:
+
+<SinalTrade>:
+    size_hint_y:None
+    height:50
+
+    Label:
+        id: Sinal
+        font_size:30
+        text:'Seu Sinal'
+
+    Button:
+        size_hint_x:None
+        widht:20
+        text:'X'
+        on_release: #app.root.get_screen('TelaTrade').ids.box.remove_widget(self.parent)
+
+
+<MyTextInput>:
+    background_color: 0.3, 0.3, 0.3, 0.3
+    write_tab: False
+    foreground_color: 0.8, 0.8, 0.8, 0.8
+    size_hint: None, None
+    size: 100, 55
+    multiline:False
+    font_size: 30
+    hint_text: '00'
+    halign: 'center'
+    input_filter: 'int'

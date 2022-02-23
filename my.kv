@@ -1,0 +1,48 @@
+#:kivy 2.0.0
+<Manager>:
+    Trade:
+    Screen:
+    Screen:
+
+<Trade>:
+    BoxLayout:
+        orientation:
+        BoxLayout:
+            orientation:'vertical'
+            spacing: 10
+            BoxLayout:
+                orientation:
+                canvas:
+                    Color:
+                        rgba: 0.3, 0.3, 0.3, 0.3
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos        
+                Label:
+                    text:'Estou encima'
+            BoxLayout:
+                orientation:
+                BoxLayout:
+                    id: box
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos        
+
+            BoxLayout:
+                orientation:
+                canvas:
+                    Color:
+                        rgba: 0.3, 0.3, 0.3, 0.3
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos        
+                Label:
+                    text:'Estou embaixo'
+
+<Texto>:
+    Label:
+        id: Texto
+        text:'Foi'

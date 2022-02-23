@@ -1,31 +1,16 @@
 PLANO DO BOT-SINAIS. OPAL'S
 
-DESCRIÇÃO DO FUNCIONAMENTO
-
-1 - Ao abrir o sistema será solicitado login e senha da IQ
-    1.1 - Criação da tela login:
-        14/02/21 - iniciado criação tela login.
-            + Criado Tela login.
-            + Criado Criado Rotina de Mudança de Tela
-            - Criar Logo para inserir na Tela login
-
-2 - Ao fazer o login será apresentado nome de usuário e valor de Banca para confirmar o login
-    2.1 - rotina de login:
-       14/02/21 - iniciado rotina de login 
-            + Importar API da IQoption
-            + Implementar Rotina de login
-            - Retornar dados do Usuário
-
-3 - Após o login será apresentado duas opções: "a) INSERIR SINAL", "b) START TRADE"
-
-4 - Selecionando "a) INSERIR SINAL", será solicitado os dados do sinal
-
-5 - Finalizado o preenchimento dos dados do sinal será apresentado a opção "SALVAR SINALL"
-
-6 - Uma vêz que o sinal tenha cido salvo, loop para etapa 3
-
-7 - Selecionando "b) START TRADE", será apresentado informações do proximo sinal, se houver; uma lista com os sinais cadastrados; um relógio e a opção "PARAR EXECUÇÃO"
-
-8 - Uma vêz que o trade seja execucado será apresentado mensagem "Trade em andamento, aguarde..." e quendo este finalizar será apresentado o resultado na lista de execução
-
-9 - Ao acionar "PARAR EXECUÇÃO" loop para etapa 3
+23/02/2022
+|-> Adaptação da tela de sinais.
+    |-> Problemas
+        |-> 1. o usuário pode digitar horarios inesistentes, como 33:75.
+        |-> 2. é preciso converter os dados para uma lista antes de ser enviada para o metodo 
+                'insere_sinal' na classe OPAL().
+        |-> 3. é preciso completar a lista de ativos disponíveis para trade.
+        |-> 4. é preciso inserir um pop_up de confirmação de insersão do sinal.
+        |-> 5. desativar a saída do aplicativo pelo botão 'ESC' do teclado.
+        |-> 6. ativar a navegação pela tecla 'TABE' do teclado, iniciando pelo campo Hora
+    |-> Soluções
+        |-> 1. 
+            |-> 1.1 ler as informações nos text_input e exbir pop_up de erro.
+            |-> 1.2 exbir pop_up com slide_bar para selecionar valor.

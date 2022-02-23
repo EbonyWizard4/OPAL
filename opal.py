@@ -33,9 +33,6 @@ class TelaLogin(Screen):
         # else:
         #     print('Errou chama o Pop-Up')       
         
-            
-
-        
 class TelaMenu(Screen):
     def sinais(self):
         self.parent.current = 'TelaSinais'

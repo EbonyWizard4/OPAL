@@ -44,12 +44,7 @@ class TelaMenu(Screen):
         self.parent.current = 'TelaTrade'
     
 class TelaSinais(Screen):
-    def pop_up(self):
-        box = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
-        popup = Popup(title = 'Horário Invalido!', content = box, size_hint = (None, None), size = (400,200))
-        box.add_widget(Label(text = 'Por favor insira um horário que seja valido!'))
-        box.add_widget(Button(text = 'OK', on_release = popup.dismiss))
-        popup.open()
+    pass
         
 
     def insere_sinal(self):
@@ -72,6 +67,15 @@ class TelaTrade(Screen):
 class SinalTrade(BoxLayout):
     pass
 
+class Pop_up(Popup):
+    def pop_up(self, titulo, texto):
+        box = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+        popup = Popup(title = titulo, content = box, size_hint = (None, None), size = (400,200))
+        box.add_widget(Label(text = texto))
+        box.add_widget(Button(text = 'OK', on_release = popup.dismiss))
+        popup.open()
+
+    
 class MyTextInput_Hora(TextInput):
     max_characters = NumericProperty(1)
     def insert_text(self, substring, from_undo=False):
@@ -79,7 +83,7 @@ class MyTextInput_Hora(TextInput):
             substring = ''
         TextInput.insert_text(self, substring, from_undo)
         if int(self.text) > 23:
-            TelaSinais().pop_up()
+            Pop_up().pop_up('Horario Invalido!', 'Corrija o capo horário e tente novamente!')
             self.text = ''
 
 class MyTextInput_Minuto(TextInput):
@@ -89,7 +93,7 @@ class MyTextInput_Minuto(TextInput):
             substring = ''
         TextInput.insert_text(self, substring, from_undo)
         if int(self.text) > 59:
-            TelaSinais().pop_up()
+            Pop_up().pop_up('Horario Invalido!', 'Corrija o capo minutos e tente novamente!')
             self.text = ''
 
 class MyTextInput(TextInput):

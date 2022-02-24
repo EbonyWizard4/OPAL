@@ -2,7 +2,19 @@ PLANO DO BOT-SINAIS. OPAL'S
 
 24/02/2022
 |-> Adaptação da tela login:
-    |-> 
+    |-> Problemas:
+        |-> 1. Campos de texto aceitam multi linha
+        |-> 2. não há validação se o campo e-mail está recebendo um e-mail de fato
+        |-> 3. quando há falha no login não há loop para nova tentativa
+    |-> Soluções
+        |-> 1.
+            |-> 1.1 desativar função multi linha no arquivo .kv
+        |-> 2.
+            |-> 2.1 utilizar o metodo on_insert_text para ler se a streeng contem um '@'
+            |-> 2.2 fazer a validação se a streeng contem um '@' no evento do botão.
+        |-> 3.
+            |-> 3.1 após o retorno do metodo de login implementar Pop Up com texto 'Falha ao evetuar o login, verifique sua conexão e tente novamente'
+
 |-> Adaptação da tela de sinais.
     |-> Problemas
         |Ok -> 1. o usuário pode digitar horarios inesistentes, como 33:75.

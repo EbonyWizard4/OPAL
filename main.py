@@ -5,6 +5,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.properties import NumericProperty
 
 class Manager(ScreenManager):
     pass
@@ -15,13 +16,15 @@ class TelaBotao(Screen):
         popup.open()
         
 class MyTxt(TextInput):
-    def insert_text(self, substring, from_undo=False):
-        txt = int(self.text)
-        print(txt)
-        if txt > 2:
-            substring = self.parent.parent.pop_up()
-        TextInput.insert_text(self, substring, from_undo)
+    max_characters = NumericProperty(1)
 
+    def insert_text(self, substring, from_undo=False):
+
+        if len(self.text) > self.max_characters and self.max_characters > 0:
+            substring = ''
+        TextInput.insert_text(self, substring, from_undo)
+        if int(self.text) > 23:
+            self.parent.parent.pop_up()
 class MyAPP(App):
     def build(self):
         return Manager()

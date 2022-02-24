@@ -8,6 +8,9 @@ from kivy.uix.textinput import TextInput
 from kivy.properties import NumericProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
+from kivy.uix.button import Button
 
 from botSinais import Robo
 
@@ -41,6 +44,14 @@ class TelaMenu(Screen):
         self.parent.current = 'TelaTrade'
     
 class TelaSinais(Screen):
+    def pop_up(self):
+        box = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+        popup = Popup(title = 'Horário Invalido!', content = box, size_hint = (None, None), size = (400,200))
+        box.add_widget(Label(text = 'Por favor insira um horário que seja valido!'))
+        box.add_widget(Button(text = 'OK', on_release = popup.dismiss))
+        popup.open()
+        
+
     def insere_sinal(self):
         self.sinal = []
         OPAL().insere_sinal(self.sinal)
@@ -61,12 +72,29 @@ class TelaTrade(Screen):
 class SinalTrade(BoxLayout):
     pass
 
-class MyTextInput(TextInput):
+class MyTextInput_Hora(TextInput):
     max_characters = NumericProperty(1)
     def insert_text(self, substring, from_undo=False):
         if len(self.text) > self.max_characters and self.max_characters > 0:
             substring = ''
         TextInput.insert_text(self, substring, from_undo)
+        if int(self.text) > 23:
+            TelaSinais().pop_up()
+            self.text = ''
+
+class MyTextInput_Minuto(TextInput):
+    max_characters = NumericProperty(1)
+    def insert_text(self, substring, from_undo=False):
+        if len(self.text) > self.max_characters and self.max_characters > 0:
+            substring = ''
+        TextInput.insert_text(self, substring, from_undo)
+        if int(self.text) > 59:
+            TelaSinais().pop_up()
+            self.text = ''
+
+class MyTextInput(TextInput):
+    pass
+
 
 class OPAL(App):
     API = Robo()

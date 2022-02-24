@@ -129,13 +129,14 @@
                         orientation: 'horizontal'
                         padding:30
                         BoxLayout:
-                        MyTextInput:
+                        MyTextInput_Hora:
                             id: Hora
                         MyTextInput:
                             text:':'
                             size: 20,55
                             readonly: True
-                        MyTextInput:
+                            disabled: True
+                        MyTextInput_Minuto:
                             id: Minuto
                         BoxLayout:
 
@@ -404,6 +405,29 @@
 
 
 <MyTextInput>:
+    background_color: 0.3, 0.3, 0.3, 0.3
+    write_tab: False
+    foreground_color: 0.8, 0.8, 0.8, 0.8
+    size_hint: None, None
+    size: 100, 55
+    multiline:False
+    font_size: 30
+    hint_text: '00'
+    halign: 'center'
+    input_filter: 'int'
+
+<MyTextInput_hora@MyTextInput>:
+    background_color: 0.3, 0.3, 0.3, 0.3
+    write_tab: False
+    foreground_color: 0.8, 0.8, 0.8, 0.8
+    size_hint: None, None
+    size: 100, 55
+    multiline:False
+    font_size: 30
+    hint_text: '00'
+    halign: 'center'
+    input_filter: 'int'
+<MyTextInput_Minuto@MyTextInput>:
     background_color: 0.3, 0.3, 0.3, 0.3
     write_tab: False
     foreground_color: 0.8, 0.8, 0.8, 0.8

@@ -1,16 +1,20 @@
 PLANO DO BOT-SINAIS. OPAL'S
 
-23/02/2022
+24/02/2022
+|-> Adaptação da tela login:
+    |-> 
 |-> Adaptação da tela de sinais.
     |-> Problemas
-        |-> 1. o usuário pode digitar horarios inesistentes, como 33:75.
+        |Ok -> 1. o usuário pode digitar horarios inesistentes, como 33:75.
         |-> 2. é preciso converter os dados para uma lista antes de ser enviada para o metodo 
                 'insere_sinal' na classe OPAL().
         |-> 3. é preciso completar a lista de ativos disponíveis para trade.
         |-> 4. é preciso inserir um pop_up de confirmação de insersão do sinal.
         |-> 5. desativar a saída do aplicativo pelo botão 'ESC' do teclado.
         |-> 6. ativar a navegação pela tecla 'TABE' do teclado, iniciando pelo campo Hora
+
     |-> Soluções
-        |-> 1. 
-            |-> 1.1 ler as informações nos text_input e exbir pop_up de erro.
-            |-> 1.2 exbir pop_up com slide_bar para selecionar valor.
+        |-> 7. 
+            |-> 7.1 desativar a escuta do teclado alfa, mantendo apenas o numérico.
+            |-> 7.2 exbir pop_up com slide_bar para selecionar valor.
+        

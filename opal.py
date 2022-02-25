@@ -27,14 +27,28 @@ class TelaApp(Screen):
 
 class TelaLogin(Screen):
     def login(self):
-        self.parent.current = 'TelaApp'
-        # self.email = str(self.ids.Login.text)
-        # self.senha = str(self.ids.Senha.text)
-        # self.login = OPAL().login(self.email, self.senha)
-        # if self.login == True:
-        #     self.parent.current = 'TelaApp'
-        # else:
-        #     print('Errou chama o Pop-Up')       
+        #self.parent.current = 'TelaApp'
+        self.email = str(self.ids.Login.text)
+        self.senha = str(self.ids.Senha.text)
+        if '@' in self.email:
+            self.login = OPAL().login(self.email, self.senha)
+        else:
+            Pop_up().pop_up(
+                'Erro ao efetuar o Login',
+                'O e-mail informado não é valido,\nCorrija suas credenciais e tente novamente!'
+            )
+            
+        if self.login == True:
+            self.parent.current = 'TelaApp'
+        else:
+            Pop_up().pop_up(
+                'Erro ao efetuar o Login',
+                'Verifique sua conexão e tente novamente'
+            )
+        
+        self.ids.Login.text = ''
+        self.ids.Senha.text = ''
+        
         
 class TelaMenu(Screen):
     def sinais(self):

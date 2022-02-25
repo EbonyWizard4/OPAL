@@ -3,17 +3,23 @@ PLANO DO BOT-SINAIS. OPAL'S
 24/02/2022
 |-> Adaptação da tela login:
     |-> Problemas:
-        |-> 1. Campos de texto aceitam multi linha
-        |-> 2. não há validação se o campo e-mail está recebendo um e-mail de fato
-        |-> 3. quando há falha no login não há loop para nova tentativa
+        |Ok -> 1. Campos de texto aceitam multi linha
+|->        |Ok -> 2. não há validação se o campo e-mail está recebendo um e-mail de fato
+|->        |Ok -> 3. quando há falha no login não há loop para nova tentativa 
+        |-> 4. Implementar navegação e limpeza de campo.
+        |-> 5. Implementar Logo
+        |-> 6. Implementar validação pela tecla Enter
+        |-> 7. Desativar função sair do app pela Tecla Esc
+        |-> 8. Implementar verificação de campo vazio
     |-> Soluções
         |-> 1.
-            |-> 1.1 desativar função multi linha no arquivo .kv
+            |Ok-> 1.1 desativar função multi linha no arquivo .kv
         |-> 2.
             |-> 2.1 utilizar o metodo on_insert_text para ler se a streeng contem um '@'
-            |-> 2.2 fazer a validação se a streeng contem um '@' no evento do botão.
-        |-> 3.
-            |-> 3.1 após o retorno do metodo de login implementar Pop Up com texto 'Falha ao evetuar o login, verifique sua conexão e tente novamente'
+|->            |Ok-Implementar navegação e limpeza de campo.1 após o retorno do metodo de login implementar Pop Up com texto 'Falha ao efetuar o login, verifique sua conexão e tente novamente'
+        |-> 4.
+|->            |Ok-> 4.1 Implementado navegação por tecla TABE
+|->            |Ok-> 4.2 Implementado limpeza altommatica dos campos após erro de login
 
 |-> Adaptação da tela de sinais.
     |-> Problemas

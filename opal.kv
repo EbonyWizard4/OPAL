@@ -167,6 +167,7 @@
                             padding:30
                             BoxLayout:
                             Spinner:
+                                id: Direcao
                                 text: 'CALL'
                                 values: 'CALL', 'PUT'
                                 size_hint: None, None
@@ -238,8 +239,9 @@
                             padding:30
                             BoxLayout:
                             Spinner:
+                                id: Paridade
                                 text: 'EURUSD'
-                                values: 'EURGBP', 'EURJPY', 'EURCAD', 'GBPUSD', 'GBPJPY', 'GBPCAD', 'USDJPY', 'USDCAD'
+                                values: 'EURUSD', 'EURRUB', 'EURGBP', 'EURJPY', 'EURCAD', 'GBPUSD', 'GBPJPY', 'GBPCAD', 'USDJPY', 'USDCAD', 'USDPLN', 'USDNOK', 'USDCHF', 'AUDUSD', 'AUDNZD', 'AUDJPY', 'AUDCAD'
                                 size_hint: None, None
                                 size: 150, 55
                             BoxLayout:
@@ -265,6 +267,7 @@
                             padding:30
                             BoxLayout:
                             Spinner:
+                                id: Time_Frame
                                 text: '1'
                                 values: '1', '5','15'
                                 size_hint: None, None
@@ -310,6 +313,7 @@
                 on_release: root.parent.current='TelaMenu'
             Button:
                 text:'Salvar'
+                on_release: root.salva_sinal()                
             Button:
                 text:'Start Trade'
                 on_release: root.parent.current='TelaTrade'

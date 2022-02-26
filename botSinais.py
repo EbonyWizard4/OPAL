@@ -24,17 +24,34 @@ class Robo():
  
 
     def perfil(self):
-        #self.perfil = json.loads(json.dumps(self.LOGIN.get_profile())) 
-        self.nome = 'Jhone Antonio dos Santos' #self.perfil['result']['name']
-        self.banca = '      R$ 10.000,00' # str(self.LOGIN.get_balance())
+        self.perfil = json.loads(json.dumps(self.LOGIN.get_profile())) 
+        self.nome = self.perfil['result']['name']
+        self.banca = str(self.LOGIN.get_balance())
         return self.nome, self.banca 
     
-    def insereSinal(self, sinal):
+    def insere_sinal(self, sinal):
         try:
-            #salvar arquivo json
-            return True
+            self.sinais = self.le_sinais(sinal)
+            self.sinais.append(sinal)
+            self.salva_sinais(self.sinais)
+                        
         except:
-            return False
+            self.salva_sinais()
+            self.sinais = self.le_sinais(sinal)
+            self.sinais.append(sinal)
+            self.salva_sinais(self.sinais)            
+            
+        return True
+    
+    def salva_sinais(self, sinais=[]):
+        with open('sinais.json', 'w') as s:
+            json.dump(sinais, s)
+            
+    def le_sinais(self, sinal):
+        with open('sinais.json', 'r') as s:
+            self.sinais = json.load(s)
+        return self.sinais
+        
         
        
 # --- SISTEMA DE ORDENS ---

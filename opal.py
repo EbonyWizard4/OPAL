@@ -58,6 +58,35 @@ class TelaMenu(Screen):
         self.parent.current = 'TelaTrade'
     
 class TelaSinais(Screen):
+    def salva_sinal(self):
+        self.banca ='Treinamento'
+        self.sinal =[
+            self.ids.Hora.text + ':' + self.ids.Minuto.text,
+            self.ids.Paridade.text,
+            self.ids.Direcao.text,
+            self.ids.Time_Frame.text,
+            self.ids.Valor.text,
+            self.banca
+            ]
+        
+        if '' in self.sinal:
+            Pop_up().pop_up(
+                'Falha Ao inserir o Sinal',
+                'Verifique se todos os campos foram \npreenchidos e tente novamente',
+            )
+        elif OPAL().insere_sinal(self.sinal) == True:
+            Pop_up().pop_up(
+                'Sucesso!',
+                'Seu sinal foi inserido com sucesso!',
+            )
+        else:
+            Pop_up().pop_up(
+                'Falha Ao inserir o Sinal',
+                'Verifique se todos os campos foram \npreenchidos e tente novamente',
+            )
+            
+        
+        
     pass
         
 
@@ -120,16 +149,16 @@ class OPAL(App):
         return Gerenciador()
     
     def login(self, email, senha):
-        self.login = self.API.singin(self.email, self.senha)
+        self.login = True #self.API.singin(email, senha)
         return True if self.login else False
     
     def perfil(self):
-        self.nome, self.banca = self.API.perfil()
+        self.nome, self.banca = 'Jhone Antonio', '10.000'#self.API.perfil()
         return self.nome, self.banca
     
     def insere_sinal(self, sinal):
-        self.pronto = self.API.insereSinal(sinal)
-        return True if self.pronto == True else False
+        self.sinal = self.API.insere_sinal(sinal)
+        return self.sinal
 
 if __name__ == '__main__':
     OPAL().run()

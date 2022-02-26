@@ -4,8 +4,8 @@ PLANO DO BOT-SINAIS. OPAL'S
 |-> Adaptação da tela login:
     |-> Problemas:
         |Ok -> 1. Campos de texto aceitam multi linha
-|->        |Ok -> 2. não há validação se o campo e-mail está recebendo um e-mail de fato
-|->        |Ok -> 3. quando há falha no login não há loop para nova tentativa 
+        |Ok -> 2. não há validação se o campo e-mail está recebendo um e-mail de fato
+        |Ok -> 3. quando há falha no login não há loop para nova tentativa 
         |-> 4. Implementar navegação e limpeza de campo.
         |-> 5. Implementar Logo
         |-> 6. Implementar validação pela tecla Enter
@@ -16,23 +16,47 @@ PLANO DO BOT-SINAIS. OPAL'S
             |Ok-> 1.1 desativar função multi linha no arquivo .kv
         |-> 2.
             |-> 2.1 utilizar o metodo on_insert_text para ler se a streeng contem um '@'
-|->            |Ok-Implementar navegação e limpeza de campo.1 após o retorno do metodo de login implementar Pop Up com texto 'Falha ao efetuar o login, verifique sua conexão e tente novamente'
+            |Ok-Implementar navegação e limpeza de campo.1 após o retorno do metodo de login implementar Pop Up com texto 'Falha ao efetuar o login, verifique sua conexão e tente novamente'
         |-> 4.
-|->            |Ok-> 4.1 Implementado navegação por tecla TABE
-|->            |Ok-> 4.2 Implementado limpeza altommatica dos campos após erro de login
+            |Ok-> 4.1 Implementado navegação por tecla TABE
+            |Ok-> 4.2 Implementado limpeza altommatica dos campos após erro de login
 
 |-> Adaptação da tela de sinais.
     |-> Problemas
-        |Ok -> 1. o usuário pode digitar horarios inesistentes, como 33:75.
-        |-> 2. é preciso converter os dados para uma lista antes de ser enviada para o metodo 
+        |Ok-> 1. o usuário pode digitar horarios invalidos, como 33:75.
+        |Ok-> 2. é preciso converter os dados para uma lista antes de ser enviada para o metodo 
                 'insere_sinal' na classe OPAL().
-        |-> 3. é preciso completar a lista de ativos disponíveis para trade.
-        |-> 4. é preciso inserir um pop_up de confirmação de insersão do sinal.
-        |-> 5. desativar a saída do aplicativo pelo botão 'ESC' do teclado.
-        |-> 6. ativar a navegação pela tecla 'TABE' do teclado, iniciando pelo campo Hora
+        |Ok-> 3. é preciso completar a lista de ativos disponíveis para trade.
+        |Ok-> 4. é preciso inserir um pop_up de confirmação de insersão do sinal.
+        |-> 5. ativar a navegação pela tecla 'TABE' do teclado, iniciando pelo campo Hora
+        |-> 6. ao inserir valores não numericos no campo hora o codigo quebra
+        |Ok-> 7. Implementar validação de campo vazio
+        |Ok-> 8. Implementar metodo 'insere_sinal'
 
-    |-> Soluções
-        |-> 7. 
-            |-> 7.1 desativar a escuta do teclado alfa, mantendo apenas o numérico.
-            |-> 7.2 exbir pop_up com slide_bar para selecionar valor.
-        
+    |-> Soluções:
+        |-> 2. 
+|->            |-> Capturado os dados do sinal em uma lista.
+        |-> 3. 
+|->            |-> Completado a lista de ativos das opções binarias
+        |-> 4. 
+|->            |-> Implementado pop_up de confirmação de inserção de sinal
+        |-> 6. 
+            |-> 6.1 desativar a escuta do teclado alfa, mantendo apenas o numérico.
+            |-> 6.2 exbir pop_up com slide_bar para selecionar valor.
+        |-> 7.
+|->            |-> Implementado validação de campo vazio com pop_up de alerta.
+        |->8. 
+|->            |-> Implementado metodo 'insere_sinal' com verificação e criação do arquivo 'sinal.json' caso este não exista
+
+|-> Adaptação da tela 'StartTrade':
+    |-> Problemas:
+        |-> 1. exbir lista de sinais ao iniciar a tela
+        |-> 2. implementar exclusão de sinal da lista de sinais
+        |-> 3. implementar metodo 'start_trade()'
+    |-> Soluções:
+        |-> 1:
+            |-> 1.1 Implementar metodo 'carrega_sinais()' no metodo 'on_pre_enter()' transformando em widget's
+        |-> 2:
+            |-> 2.1 Implementar metodo 'exclui_sinail()' no metodo evento do botão 'X' de cada widget sinal.       
+        |-> 3:
+            |-> 3.1 implementar abertura de ordens com os dados constantes nos sinais do arquivo sinais.json.

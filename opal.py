@@ -1,4 +1,5 @@
 
+from audioop import reverse
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -27,11 +28,12 @@ class TelaApp(Screen):
 
 class TelaLogin(Screen):
     def login(self):
-        #self.parent.current = 'TelaApp'
+        #
         self.email = str(self.ids.Login.text)
         self.senha = str(self.ids.Senha.text)
         if '@' in self.email:
-            self.login = OPAL().login(self.email, self.senha)
+            self.parent.current = 'TelaApp'
+            #self.login = OPAL().login(self.email, self.senha)
         else:
             Pop_up().pop_up(
                 'Erro ao efetuar o Login',
@@ -49,7 +51,6 @@ class TelaLogin(Screen):
         self.ids.Login.text = ''
         self.ids.Senha.text = ''
         
-        
 class TelaMenu(Screen):
     def sinais(self):
         self.parent.current = 'TelaSinais'
@@ -59,7 +60,7 @@ class TelaMenu(Screen):
     
 class TelaSinais(Screen):
     def salva_sinal(self):
-        self.banca ='Treinamento'
+        self.banca ='Treino'
         self.sinal =[
             self.ids.Hora.text + ':' + self.ids.Minuto.text,
             self.ids.Paridade.text,
@@ -101,14 +102,37 @@ class TelaSinais(Screen):
         self.parent.current = 'TelaTrade'
 
 class TelaTrade(Screen):
+    def on_pre_enter(self, *args):
+        self.sinais = OPAL().le_sinais()
+        for self.sinal in self.sinais:
+            self.ids.Lista.add_widget(SinalTrade(self.sinal))
+        
     def sinais(self):
         self.parent.current = 'TelaSinais'
         
     def menu(self):
         self.parent.current = 'TelaMenu'
+    
+    def on_pre_leave(self, *args):
+        for widget in range(len(self.ids.Lista.children)):
+            self.ids.Lista.remove_widget(self.ids.Lista.children[0])
 
 class SinalTrade(BoxLayout):
-    pass
+    def __init__(self,sinal=[], **kwargs):
+        super().__init__(**kwargs)
+        for self.elemento in sinal:
+            self.ids.box_sinal.add_widget(Label(text = str(self.elemento)))
+    
+    def exclui_sinal(self,sinal=[]):
+        sinal.clear()
+        for widget in range(len(self.ids.box_sinal.children)):
+            sinal.append(self.ids.box_sinal.children[0].text)
+            self.ids.box_sinal.remove_widget(self.ids.box_sinal.children[0])
+        sinal = sinal[::-1]
+        OPAL().exclui_sinal(sinal)
+        self.parent.remove_widget(self)
+        # print(sinal)
+        
 
 class Pop_up(Popup):
     def pop_up(self, titulo, texto):
@@ -159,6 +183,12 @@ class OPAL(App):
     def insere_sinal(self, sinal):
         self.sinal = self.API.insere_sinal(sinal)
         return self.sinal
-
+    
+    def le_sinais(self):
+        self.sinais = self.API.le_sinais()
+        return self.sinais
+    
+    def exclui_sinal(self, sinal):
+        self.API.exclui_sinal(sinal)
 if __name__ == '__main__':
     OPAL().run()

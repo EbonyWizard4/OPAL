@@ -31,13 +31,13 @@ class Robo():
     
     def insere_sinal(self, sinal):
         try:
-            self.sinais = self.le_sinais(sinal)
+            self.sinais = self.le_sinais()
             self.sinais.append(sinal)
             self.salva_sinais(self.sinais)
                         
         except:
             self.salva_sinais()
-            self.sinais = self.le_sinais(sinal)
+            self.sinais = self.le_sinais()
             self.sinais.append(sinal)
             self.salva_sinais(self.sinais)            
             
@@ -47,11 +47,20 @@ class Robo():
         with open('sinais.json', 'w') as s:
             json.dump(sinais, s)
             
-    def le_sinais(self, sinal):
+    def le_sinais(self):
         with open('sinais.json', 'r') as s:
             self.sinais = json.load(s)
         return self.sinais
-        
+
+    def exclui_sinal(self, sinal):
+        self.sinais = self.le_sinais()
+        for i,v in enumerate(self.sinais):
+            if sinal == v:
+                self.sinais.remove(v)
+        self.salva_sinais(self.sinais)
+
+
+
         
        
 # --- SISTEMA DE ORDENS ---

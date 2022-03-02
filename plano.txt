@@ -3,60 +3,50 @@ PLANO DO BOT-SINAIS. OPAL'S
 24/02/2022
 |-> Adaptação da tela login:
     |-> Problemas:
-        |Ok -> 1. Campos de texto aceitam multi linha
-        |Ok -> 2. não há validação se o campo e-mail está recebendo um e-mail de fato
-        |Ok -> 3. quando há falha no login não há loop para nova tentativa 
         |-> 4. Implementar navegação e limpeza de campo.
         |-> 5. Implementar Logo
         |-> 6. Implementar validação pela tecla Enter
         |-> 7. Desativar função sair do app pela Tecla Esc
         |-> 8. Implementar verificação de campo vazio
     |-> Soluções
-        |-> 1.
-            |Ok-> 1.1 desativar função multi linha no arquivo .kv
-        |-> 2.
-            |-> 2.1 utilizar o metodo on_insert_text para ler se a streeng contem um '@'
-            |Ok-Implementar navegação e limpeza de campo.1 após o retorno do metodo de login implementar Pop Up com texto 'Falha ao efetuar o login, verifique sua conexão e tente novamente'
-        |-> 4.
-            |Ok-> 4.1 Implementado navegação por tecla TABE
-            |Ok-> 4.2 Implementado limpeza altommatica dos campos após erro de login
 
 |-> Adaptação da tela de sinais.
     |-> Problemas
-        |Ok-> 1. o usuário pode digitar horarios invalidos, como 33:75.
-        |Ok-> 2. é preciso converter os dados para uma lista antes de ser enviada para o metodo 
-                'insere_sinal' na classe OPAL().
-        |Ok-> 3. é preciso completar a lista de ativos disponíveis para trade.
-        |Ok-> 4. é preciso inserir um pop_up de confirmação de insersão do sinal.
-        |-> 5. ativar a navegação pela tecla 'TABE' do teclado, iniciando pelo campo Hora
+        |-> 5. ao salvar o um sinal os campos devem ser limpos
         |-> 6. ao inserir valores não numericos no campo hora o codigo quebra
-        |Ok-> 7. Implementar validação de campo vazio
-        |Ok-> 8. Implementar metodo 'insere_sinal'
 
     |-> Soluções:
-        |-> 2. 
-|->            |-> Capturado os dados do sinal em uma lista.
-        |-> 3. 
-|->            |-> Completado a lista de ativos das opções binarias
-        |-> 4. 
-|->            |-> Implementado pop_up de confirmação de inserção de sinal
         |-> 6. 
             |-> 6.1 desativar a escuta do teclado alfa, mantendo apenas o numérico.
             |-> 6.2 exbir pop_up com slide_bar para selecionar valor.
-        |-> 7.
-|->            |-> Implementado validação de campo vazio com pop_up de alerta.
-        |->8. 
-|->            |-> Implementado metodo 'insere_sinal' com verificação e criação do arquivo 'sinal.json' caso este não exista
 
 |-> Adaptação da tela 'StartTrade':
     |-> Problemas:
         |-> 1. exbir lista de sinais ao iniciar a tela
+            
         |-> 2. implementar exclusão de sinal da lista de sinais
         |-> 3. implementar metodo 'start_trade()'
+        |-> 4 a lista de sinais esta ilegivel por causa do tamanho
     |-> Soluções:
         |-> 1:
-            |-> 1.1 Implementar metodo 'carrega_sinais()' no metodo 'on_pre_enter()' transformando em widget's
+|->            |OK-> 1.1 Implementar metodo 'carrega_sinais()' no metodo 'on_pre_enter()' da tela
+|->            |OK-> 1.2 Transformar os sinais carregados em widget's
+|->            |Ok-> 1.3 Identificado carregamento duplicado ao sair e retornar para a tela.
+|->            |Ok-> 1.4 Implementado limpeza da lista exibida na tela ao mudar de tela.
         |-> 2:
-            |-> 2.1 Implementar metodo 'exclui_sinail()' no metodo evento do botão 'X' de cada widget sinal.       
+|->            |Ok-> 2.1 Implementar metodo que exclui o widget.
+|->            |-> 2.2 Implementar metodo que exclui o sinal da lista de sinal 
+|->                |-> 2.2.1 Implemtnado Metodo no evento do botão de exclusão
+|->                |-> 2.2.2 Metodo le a lista, converte o valor em str, compara com o str do sinal que será excluído e remove da lista caso sejam iguais
+|->                |-> 2.2.3 Concluído a remoção o metodo salva a lista no arquivo .json
+
+
+            |-> 2.3 Implementar metodo que exclui o agendamento do evento
         |-> 3:
             |-> 3.1 implementar abertura de ordens com os dados constantes nos sinais do arquivo sinais.json.
+        |-> 4:
+|->            |-> 4.1 Redimencionado elementos de tela.
+|->            |-> 4.2 Alterado metodo de inserção de elementos em lista de sinais.
+|->            |-> 4.3 Identificado bug no metodo de exclusão de widget e elementos da lista.
+|->            |-> 4.4 alterado metodo de exclusão de wuidget para adaptar-se a novo modo e insersão
+|->            |-> 4.5 Alterado metodo de exclusão para adaptar-se a novo metodo de incerdção

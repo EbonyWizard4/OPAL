@@ -24,6 +24,7 @@
                 multiline:False
                 font_size: 30
                 write_tab: False
+                text:'@'
             TextInput: #Campo Senha
                 id: Senha
                 hint_text: 'Senha utilizada na IQoption'
@@ -200,6 +201,7 @@
                                 text:'R$'
                                 size: 55,55
                                 readonly: True
+                                disabled: True
                             TextInput:
                                 id: Valor
                                 background_color: 0.3, 0.3, 0.3, 0.3
@@ -338,6 +340,9 @@
             BoxLayout: #informativo
                 orientation:'vertical'
                 spacing: 10
+                size_hint_x: None
+                width: 200
+
                 BoxLayout:
                     orientation:'vertical'
                     id: Trade
@@ -366,19 +371,59 @@
                         text:'Cronometro'
                     Label:
                         id:Relógio   
-                        text:'00:00'                       
-            ScrollView: #lista de Sinais
+                        text:'00:00'
+            BoxLayout:
+                orientation:'vertical'
+                canvas:
+                    Color:
+                        rgba: 0.3, 0.3, 0.3, 0.3
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos                
+                    
                 BoxLayout:
-                    id: box
-                    orientation: 'vertical'
+                    orientation:
+                    id: Cabeçalho
                     size_hint_y:None
-                    height:self.minimum_height
-                    canvas:
-                        Color:
-                            rgba: 0.3, 0.3, 0.3, 0.3
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
+                    height:50                    
+                    Label:
+                        id: Direção
+                        text: 'Dir'
+                    Label:
+                        id: Horario
+                        text: 'Hora'
+                    Label:
+                        id: Paridade
+                        text:'Par'
+                    Label:
+                        id: Minutos
+                        text:'Min'
+                    Label:
+                        id: Valor
+                        text:'Valor'
+                    Label:
+                        id: Conta
+                        text:'Conta'
+                    Button:
+                        size_hint_x:None
+                        widht:20                    
+                        disabled: True
+                        
+                ScrollView: #lista de Sinais
+                    BoxLayout:
+                        id: Lista
+                        orientation: 'vertical'
+                        size_hint_y:None
+                        height:self.minimum_height
+                        canvas:
+                            Color:
+                                rgba: 0.3, 0.3, 0.3, 0.3
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+
+                        
+
         BoxLayout: #Botões
             orientation: 'horizontal'
             size_hint_y: None
@@ -402,17 +447,15 @@
 <SinalTrade>:
     size_hint_y:None
     height:50
-
-    Label:
-        id: Sinal
-        font_size:30
-        text:'Seu Sinal'
-
+    spacing: 5
+    BoxLayout:
+        orientation:
+        id: box_sinal
     Button:
         size_hint_x:None
         widht:20
         text:'X'
-        on_release: #app.root.get_screen('TelaTrade').ids.box.remove_widget(self.parent)
+        on_release: root.exclui_sinal()#root.parent.remove_widget(self.parent)
 
 
 <MyTextInput>:

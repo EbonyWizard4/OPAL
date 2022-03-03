@@ -337,15 +337,16 @@
             orientation:'horizontal'
             padding: 10
             spacing: 10
-            BoxLayout: #informativo
+            BoxLayout: #-> informativo
                 orientation:'vertical'
                 spacing: 10
                 size_hint_x: None
-                width: 200
+                width: 250
 
-                BoxLayout:
+                BoxLayout: #-> Próximo Trade
                     orientation:'vertical'
                     id: Trade
+                    padding: 60
                     canvas:
                         Color:
                             rgba: 0.3, 0.3, 0.3, 0.3
@@ -354,11 +355,14 @@
                             pos: self.pos
                     Label:
                         text:'Próximo Trade às:'
+                        size_hint_y: None
+                        height: 40
                     Label:
                         id:HoraTrade
                         text:'00:00'
+                        font_size: 50
 
-                BoxLayout:
+                BoxLayout: #-> Resultados
                     orientation:'vertical'
                     id: Cronometro
                     canvas:
@@ -368,11 +372,85 @@
                             size: self.size
                             pos: self.pos
                     Label:
-                        text:'Cronometro'
+                        id: Win_Rit
+                        text:'Win/Rit'
+                        size_hint_y: None
+                        height: 40
                     Label:
-                        id:Relógio   
-                        text:'00:00'
-            BoxLayout:
+                        text:'100%'
+                        font_size: 50
+                    Label:
+                        id: Win_Rit
+                        text:
+                        size_hint_y: None
+                        height: 40
+                    BoxLayout: #-> Container das parciais 
+                        orientation:'horizontal'
+                        id: Resultados_Parciais
+                        padding: 2
+                        spacing: 2
+                        BoxLayout: #-> Primeiro Lance
+                            orientation:'vertical'
+                            id: Primeiro_Lance
+                            canvas:
+                                Color:
+                                    rgba: 0.5, 0.5, 0.5, 0.5
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos                            
+                            Label:
+                                id: Titulo_Primeiro_Lance
+                                text: 'Entrada'
+                            Label:
+                                id: Resultado_Primeiro_Lance
+                                text:'0'
+                        BoxLayout: #-> Gale 1
+                            orientation:'vertical'
+                            id: Gale_1
+                            canvas:
+                                Color:
+                                    rgba: 0.5, 0.5, 0.5, 0.5
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos  
+                            Label:
+                                id: Titulo_Gale_1
+                                text: 'M.G. 1'
+                            Label:
+                                id: Resultado_Gale_1
+                                text:'0'
+                        BoxLayout: #-> Gale 2
+                            orientation:'vertical'
+                            id: Gale_2
+                            canvas:
+                                Color:
+                                    rgba: 0.5, 0.5, 0.5, 0.5
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos  
+                            Label:
+                                id: Titulo_Gale_2
+                                text: 'M.G. 2'
+                            Label:
+                                id: Resultado_Gale_2
+                                text:'0'
+                        BoxLayout: #-> RIT
+                            orientation:'vertical'
+                            id: Rit
+                            canvas:
+                                Color:
+                                    rgba: 0.5, 0.5, 0.5, 0.5
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos  
+                            Label:
+                                id: Titulo_Rit
+                                text: 'Rit'
+                            Label:
+                                id: Resultado_Rit
+                                text:'0'
+                                
+            BoxLayout: #-> Container da Lista
                 orientation:'vertical'
                 canvas:
                     Color:
@@ -381,11 +459,12 @@
                         size: self.size
                         pos: self.pos                
                     
-                BoxLayout:
+                BoxLayout: #-> Cabeçalho
                     orientation:
                     id: Cabeçalho
                     size_hint_y:None
-                    height:50                    
+                    height:50     
+                    spacing: 2               
                     Label:
                         id: Direção
                         text: 'Dir'
@@ -447,10 +526,11 @@
 <SinalTrade>:
     size_hint_y:None
     height:50
-    spacing: 5
+    
     BoxLayout:
         orientation:
         id: box_sinal
+        
     Button:
         size_hint_x:None
         widht:20

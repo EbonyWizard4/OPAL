@@ -109,7 +109,10 @@ class TelaTrade(Screen):
         
     def sinais(self):
         self.parent.current = 'TelaSinais'
-        
+
+    def start(self):
+        OPAL().trade()
+            
     def menu(self):
         self.parent.current = 'TelaMenu'
     
@@ -131,8 +134,6 @@ class SinalTrade(BoxLayout):
         sinal = sinal[::-1]
         OPAL().exclui_sinal(sinal)
         self.parent.remove_widget(self)
-        # print(sinal)
-        
 
 class Pop_up(Popup):
     def pop_up(self, titulo, texto):
@@ -141,7 +142,6 @@ class Pop_up(Popup):
         box.add_widget(Label(text = texto))
         box.add_widget(Button(text = 'OK', on_release = popup.dismiss))
         popup.open()
-
     
 class MyTextInput_Hora(TextInput):
     max_characters = NumericProperty(1)
@@ -166,7 +166,6 @@ class MyTextInput_Minuto(TextInput):
 class MyTextInput(TextInput):
     pass
 
-
 class OPAL(App):
     API = Robo()
     def build(self):
@@ -190,5 +189,9 @@ class OPAL(App):
     
     def exclui_sinal(self, sinal):
         self.API.exclui_sinal(sinal)
+
+    def trade(self):
+        self.API.trade()
+
 if __name__ == '__main__':
     OPAL().run()

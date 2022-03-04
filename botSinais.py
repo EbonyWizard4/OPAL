@@ -1,9 +1,9 @@
 
+import imp
 from iqoptionapi.stable_api import IQ_Option
 import json
-#import schedule
 import time
-
+import schedule
 
 class Robo():
     # --- SISTEMA DE LOGIN --- #
@@ -22,7 +22,6 @@ class Robo():
             elif reason==error_password:
                 print("Error Password")
  
-
     def perfil(self):
         self.perfil = json.loads(json.dumps(self.LOGIN.get_profile())) 
         self.nome = self.perfil['result']['name']
@@ -59,7 +58,18 @@ class Robo():
                 self.sinais.remove(v)
         self.salva_sinais(self.sinais)
 
+    def trade(self):
+        self.lista = self.le_sinais()
+        for self.sinal in self.lista:
+            print(self.sinal[0])
+            schedule.every().day.at(self.sinal[0]).do(self.abre_ordem)
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
 
+    def abre_ordem(self):
+        print('abre ordem')
+        
 
         
        

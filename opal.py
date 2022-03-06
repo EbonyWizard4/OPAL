@@ -1,5 +1,5 @@
 
-from audioop import reverse
+
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -16,6 +16,7 @@ from kivy.uix.button import Button
 from botSinais import Robo
 
 import json
+from datetime import datetime, timedelta
 
 class Gerenciador(ScreenManager):
     pass
@@ -104,6 +105,7 @@ class TelaSinais(Screen):
 class TelaTrade(Screen):
     def on_pre_enter(self, *args):
         self.sinais = OPAL().le_sinais()
+        self.sinais = sorted(self.sinais)
         for self.sinal in self.sinais:
             self.ids.Lista.add_widget(SinalTrade(self.sinal))
         
@@ -111,9 +113,28 @@ class TelaTrade(Screen):
         self.parent.current = 'TelaSinais'
 
     def start(self):
+        self.lista = OPAL().le_sinais()
+        self.lista = sorted(self.lista)
+        # self.now = datetime.now()
+        self.now = datetime.strftime(datetime.now(), '%H:%M:%S')
+        for sinal in self.lista:
+            tempo = datetime.strptime(sinal[0] + ':00', '%H:%M:%S') - datetime.strptime(self.now, '%H:%M:%S')
+            tempo = timedelta.total_seconds(tempo)
+            if tempo <= 0:
+                self.ids.Lista.remove_widget(self.ids.Lista.children[0])
+            else:
+                ordem = Clock.schedule_once(self.trade, tempo)
+            # print(ordem)
+
+
+    
+    def trade(self,*args):
         OPAL().trade()
+        self.ids.Lista.remove_widget(self.ids.Lista.children[0])
+        
+        
             
-    def menu(self):
+    def menu(self,**args):
         self.parent.current = 'TelaMenu'
     
     def on_pre_leave(self, *args):
@@ -125,6 +146,8 @@ class SinalTrade(BoxLayout):
         super().__init__(**kwargs)
         for self.elemento in sinal:
             self.ids.box_sinal.add_widget(Label(text = str(self.elemento)))
+            
+
     
     def exclui_sinal(self,sinal=[]):
         sinal.clear()

@@ -34,8 +34,8 @@ PLANO DO BOT-SINAIS. OPAL'S
         |-> 3:
             |-> 3.1 implementar abertura de ordens com os dados constantes nos sinais do arquivo sinais.json.
         |->7:
-|->            |-> 7.1 Implementado chamadas no botão start da tela 'StartTrade'
-|->            |-> 7.2 Implementado chamada na classe 'OPAL()'
-|->            |-> 7.3 Implementado 'def trade()' com agendamento dos eventos na lista na classe bot().
-|->            |-> 7.4 Implementado 'def abre_ordem' para teste de execução
-|->            |-> 7.5 Identificado travamento do sistema ao iniciar execuçao agendada.
+|->            |-> 7.6 Implementado metodo 'OPAL().le_sinais()' no metodo start
+|->            |-> 7.7 Implementado ordenação e conversão de valores dos sinais para datetime
+|->            |-> 7.8 Implementado calculo de diferença em segundos para o proximo lance agendado
+|->            |-> 7.9 Implementado execuçao agendada com uso do 'Clock.schedule_once()'
+

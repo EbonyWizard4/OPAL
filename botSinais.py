@@ -59,18 +59,13 @@ class Robo():
         self.salva_sinais(self.sinais)
 
     def trade(self):
-        self.lista = self.le_sinais()
-        for self.sinal in self.lista:
-            print(self.sinal[0])
-            schedule.every().day.at(self.sinal[0]).do(self.abre_ordem)
-        while True:
-            schedule.run_pending()
-            time.sleep(1)
+        self.abre_ordem()
+
 
     def abre_ordem(self):
-        print('abre ordem')
-        
-
+        sinais = self.le_sinais()        
+        for sinal in sinais:
+            print(sinal[0])
         
        
 # --- SISTEMA DE ORDENS ---

@@ -4,7 +4,6 @@
     TelaLogin:
     TelaApp:
 
-
 <TelaLogin>:
     name: 'TelaLogin'
     BoxLayout:# principal
@@ -45,6 +44,12 @@
                 on_release: root.login()
             BoxLayout:
                 orientation:
+
+
+
+
+
+
 
 <TelaApp>:
     name:'TelaApp'
@@ -337,7 +342,7 @@
             orientation:'horizontal'
             padding: 10
             spacing: 10
-            BoxLayout: #-> informativo
+            BoxLayout: #-> Container informativo
                 orientation:'vertical'
                 spacing: 10
                 size_hint_x: None
@@ -524,6 +529,7 @@
                 orientation:
 
 <SinalTrade>:
+    id: sinal_trade
     size_hint_y:None
     height:50
     

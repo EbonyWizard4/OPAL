@@ -143,6 +143,7 @@
                         BoxLayout:
                         MyTextInput_Hora:
                             id: Hora
+                            text: '00'
                         MyTextInput:
                             text:':'
                             size: 20,55
@@ -151,9 +152,10 @@
 
                         MyTextInput_Minuto:
                             id: Minuto
+                            text: '00'
                         BoxLayout:
 
-                BoxLayout: #Direção
+                BoxLayout: #Direçãos
                     orientation: 'horizontal'
                     canvas:
                         Color:
@@ -216,9 +218,9 @@
                                 size: 150, 55
                                 multiline:False
                                 font_size: 30
-                                hint_text: '02.00'
                                 halign: 'center'
                                 input_filter: 'float'
+                                text: '2.00'
                             BoxLayout:
                         
             
@@ -364,7 +366,7 @@
                         height: 40
                     Label:
                         id:HoraTrade
-                        text:'00:00'
+                        text:'--:--'
                         font_size: 50
 
                 BoxLayout: #-> Resultados
@@ -382,7 +384,7 @@
                         size_hint_y: None
                         height: 40
                     Label:
-                        text:'100%'
+                        text:'---%'
                         font_size: 50
                     Label:
                         id: Win_Rit
@@ -408,7 +410,7 @@
                                 text: 'Entrada'
                             Label:
                                 id: Resultado_Primeiro_Lance
-                                text:'0'
+                                text:'--'
                         BoxLayout: #-> Gale 1
                             orientation:'vertical'
                             id: Gale_1
@@ -423,7 +425,7 @@
                                 text: 'M.G. 1'
                             Label:
                                 id: Resultado_Gale_1
-                                text:'0'
+                                text:'--'
                         BoxLayout: #-> Gale 2
                             orientation:'vertical'
                             id: Gale_2
@@ -438,7 +440,7 @@
                                 text: 'M.G. 2'
                             Label:
                                 id: Resultado_Gale_2
-                                text:'0'
+                                text:'--'
                         BoxLayout: #-> RIT
                             orientation:'vertical'
                             id: Rit
@@ -453,7 +455,7 @@
                                 text: 'Rit'
                             Label:
                                 id: Resultado_Rit
-                                text:'0'
+                                text:'--'
                                 
             BoxLayout: #-> Container da Lista
                 orientation:'vertical'
@@ -472,13 +474,13 @@
                     spacing: 2               
                     Label:
                         id: Direção
-                        text: 'Dir'
-                    Label:
-                        id: Horario
                         text: 'Hora'
                     Label:
+                        id: Horario
+                        text: 'Par'
+                    Label:
                         id: Paridade
-                        text:'Par'
+                        text:'Dir.'
                     Label:
                         id: Minutos
                         text:'Min'
@@ -488,12 +490,15 @@
                     Label:
                         id: Conta
                         text:'Conta'
+                    Label:
+                        id: Gale
+                        text:'Gale'                        
                     Button:
                         size_hint_x:None
                         widht:20                    
                         disabled: True
                         
-                ScrollView: #lista de Sinais
+                ScrollView: #-> lista de Sinais
                     BoxLayout:
                         id: Lista
                         orientation: 'vertical'
@@ -520,8 +525,8 @@
                 text:'Menu'
                 on_release: root.parent.current='TelaMenu'
             Button:
-                text:'Start'
-                on_release: root.start()
+                text:'Start Trade'
+                on_release: root.start_trade()
             Button:
                 text:'Inserir Sinais'
                 on_release: root.parent.current='TelaSinais'
@@ -556,25 +561,5 @@
     halign: 'center'
     input_filter: 'int'
 
-<MyTextInput_hora@MyTextInput>:
-    background_color: 0.3, 0.3, 0.3, 0.3
-    write_tab: False
-    foreground_color: 0.8, 0.8, 0.8, 0.8
-    size_hint: None, None
-    size: 100, 55
-    multiline:False
-    font_size: 30
-    hint_text: '00'
-    halign: 'center'
-    input_filter: 'int'
-<MyTextInput_Minuto@MyTextInput>:
-    background_color: 0.3, 0.3, 0.3, 0.3
-    write_tab: False
-    foreground_color: 0.8, 0.8, 0.8, 0.8
-    size_hint: None, None
-    size: 100, 55
-    multiline:False
-    font_size: 30
-    hint_text: '00'
-    halign: 'center'
-    input_filter: 'int'
+<MyTextInput_hora>:
+<MyTextInput_Minuto>:

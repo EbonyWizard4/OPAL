@@ -1,31 +1,28 @@
 
-import imp
 from iqoptionapi.stable_api import IQ_Option
 import json
-import time
-import schedule
 
 class Robo():
     # --- SISTEMA DE LOGIN --- #
     def singin(self, email='', senha=''):
         error_password="""{"code":"invalid_credentials","message":"You entered the wrong credentials. Please check that the login/password is correct."}"""
-        self.LOGIN = IQ_Option("antonio.jhone@hotmail.com", "Krishinna@1")
-        check,reason=self.LOGIN.connect()
+        self.API = IQ_Option("antonio.jhone@hotmail.com", "Krishinna@1")
+        self.check,self.reason=self.API.connect()
         
-        if check:
-            print('foi')
-            return self.LOGIN    
+        if self.check:
+            print('start your bot')
+            return self.API
 
         else:
-            if reason=="[Errno -2] Name or service not known":
+            if self.reason=="[Errno -2] Name or service not known":
                 print("No Network")
-            elif reason==error_password:
+            elif self.reason==error_password:
                 print("Error Password")
  
     def perfil(self):
-        self.perfil = json.loads(json.dumps(self.LOGIN.get_profile())) 
+        self.perfil = json.loads(json.dumps(self.API.get_profile())) 
         self.nome = self.perfil['result']['name']
-        self.banca = str(self.LOGIN.get_balance())
+        self.banca = str(self.API.get_balance())
         return self.nome, self.banca 
     
     def insere_sinal(self, sinal):
@@ -44,12 +41,16 @@ class Robo():
     
     def salva_sinais(self, sinais=[]):
         with open('sinais.json', 'w') as s:
+            sinais = sorted(sinais)
             json.dump(sinais, s)
             
-    def le_sinais(self):
-        with open('sinais.json', 'r') as s:
-            self.sinais = json.load(s)
-        return self.sinais
+    def le_sinais(self, sinais=[]):
+        try:
+            with open('sinais.json', 'r') as s:
+                self.sinais = json.load(s)
+            return self.sinais
+        except:
+            return sinais
 
     def exclui_sinal(self, sinal):
         self.sinais = self.le_sinais()
@@ -59,13 +60,13 @@ class Robo():
         self.salva_sinais(self.sinais)
 
     def trade(self):
-        self.abre_ordem()
-
-
-    def abre_ordem(self):
         sinais = self.le_sinais()        
         for sinal in sinais:
             print(sinal[0])
+            Status,id = self.API.buy(sinal[4], sinal[1], sinal[2], sinal[3])
+
+
+
         
        
 # --- SISTEMA DE ORDENS ---

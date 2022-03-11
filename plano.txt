@@ -17,16 +17,23 @@
     |-> Implementado tray except na def le_sinais no modulo botSinais com declaração e retorno de lista vazia caso haja inconsistência no arquivo sinais.json
     |-> Identificado falha na validação dos dados dos campos de horario gerando inconsistência:
         |-> Implementado metodo '_on_textinput_focused()' nas classes dos TextInput de forma a solucionar o problema impondo validação
-    
+|-> 10/03/22
+    |-> implementado rotina de verificação de resultados de trade.
+|-> 11/03/22
+    |-> Teste de abertura de ordem com verificação de resultados:
+        |-> O Sistema trava enquanto aguarda o resultado do trade.
+        |-> tst. 01 - agendar busca de resultado para o ultimo segundo do após operação.
+        |-> tst. 02 - inserir popup informativo.
+        
+
+
 |-> Plano:
 
 |-> 1. TelaTrade:
 |-> 1.1. Rotina StartTrade:
-|-> 1.1.2. verificar se o sinal é futuro ou passado:
-|-> 1.1.2.1 verificação por subtração do valor total de segundos em um dia 86400
 |-> 1.1.3. exbir time até o prósimo Trade
 |-> 1.1.4. agendar execução
-|-> 1.1.4.5. exibir resultado Win/Rotina
+|-> 1.1.4.5. exibir resultado Win/Rit
 |-> 1.1.4.6. excluir sinal da lista 
 |-> 1.1.5. habilitar função StopTrade
 

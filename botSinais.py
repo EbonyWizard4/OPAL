@@ -44,7 +44,7 @@ class Robo():
             sinais = sorted(sinais)
             json.dump(sinais, s)
             
-    def le_sinais(self, sinais=[]):
+    def le_sinais(self, sinais = []):
         try:
             with open('sinais.json', 'r') as s:
                 self.sinais = json.load(s)
@@ -59,11 +59,13 @@ class Robo():
                 self.sinais.remove(v)
         self.salva_sinais(self.sinais)
 
-    def trade(self):
-        sinais = self.le_sinais()        
-        for sinal in sinais:
-            print(sinal[0])
-            Status,id = self.API.buy(sinal[4], sinal[1], sinal[2], sinal[3])
+    def trade(self, sinal=[]):        
+        status,id = self.API.buy(sinal[4], sinal[1], sinal[2], sinal[3])
+        return status, id
+            
+    def resultado(self, id):
+        resultado, lucro = self.API.check_win_v3(id)
+        return resultado, lucro
 
 
 

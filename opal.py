@@ -1,6 +1,7 @@
 
 
 from time import strftime
+from typing import Any
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -18,6 +19,7 @@ from botSinais import Robo
 
 import json
 from datetime import datetime, timedelta
+from functools import partial
 
 class Gerenciador(ScreenManager):
     pass
@@ -47,7 +49,7 @@ class TelaLogin(Screen):
 
 class TelaApp(Screen):
     def on_pre_enter(self):
-        self.nome, self.banca = 'Jhone', '10.000'#OPAL().perfil()
+        self.nome, self.banca = 'OPAL().perfil()','100000'
         self.ids.Usuario.text = self.nome
         self.ids.Banca.text = self.banca        
 
@@ -111,8 +113,12 @@ class TelaSinais(Screen):
 class TelaTrade(Screen):
     def on_pre_enter(self, *args):
         self.sinais = self.le_sinais()
-        for self.sinal in self.sinais:
-            self.ids.Lista.add_widget(SinalTrade(self.sinal))
+        self.insere_widget(self.sinais)
+
+    def insere_widget(self, sinais):
+        for sinal in sinais:
+            self.ids.Lista.add_widget(SinalTrade(sinal))
+        
     
     def le_sinais(self):
         self.sinais = OPAL().le_sinais()
@@ -128,7 +134,9 @@ class TelaTrade(Screen):
         self.parent.current = 'TelaSinais'
 
     def start_trade(self):
-        ordens = []
+        self.ordens = []
+        agenda = []
+        i = 0
         self.hora = datetime.strftime(datetime.now(), "%H:%M:%S")
         self.lista = self.le_sinais()
         for sinal in self.lista:
@@ -136,23 +144,43 @@ class TelaTrade(Screen):
             tempo = timedelta.total_seconds(tempo)
             if tempo <= 0:
                 tempo = tempo + 86400
-                print(tempo)
-                ordens.append(Clock.schedule_once(self.trade, tempo))
+                self.ordens.append(Clock.schedule_once(partial(self.trade, sinal, Any), tempo))
+                sinal.insert(0,tempo)
+                agenda.append(sinal)
             else:
-                ordens.append(Clock.schedule_once(self.trade, tempo))
-                print(tempo)
+                self.ordens.append(Clock.schedule_once(partial(self.trade, sinal, Any), tempo))
+                sinal.insert(0,tempo)
+                agenda.append(sinal)
+        self.mostra_agenda(agenda)
+        
+    def mostra_agenda(self, agenda):
+        agenda.sort()
+        for sinal in agenda:
+            sinal.pop(0)
+        self.exclui_widget()
+        self.insere_widget(agenda)
+        print(agenda)
+                   
+    def trade(self, sinal=[], *args, **kwargs):
+        status, id = OPAL().trade(sinal)
+        if status:
+            Clock.schedule_once(partial(self.resultado, id, Any), 59)
+            
     
-    def trade(self):
-        OPAL().trade()
-        self.ids.Lista.remove_widget(self.ids.Lista.children[0])
+    def resultado(self, id, *args, **kwargs):
+        resultado, lucro = OPAL().resultado(id)
+        print(resultado, lucro)
         
     def para_TelaMenu(self):
         self.parent.current = 'TelaMenu'
     
     def on_pre_leave(self, *args):
+        self.exclui_widget()
+    
+    def exclui_widget(self):
         for widget in range(len(self.ids.Lista.children)):
             self.ids.Lista.remove_widget(self.ids.Lista.children[0])
-
+        
 class SinalTrade(BoxLayout):
     def __init__(self,sinal=[], **kwargs):
         super().__init__(**kwargs)
@@ -228,11 +256,15 @@ class OPAL(App):
         return self.sinais
     
     def exclui_sinal(self, sinal):
-        print(sinal)
         self.Robo.exclui_sinal(sinal)
 
-    def trade(self):
-        self.Robo.trade()
+    def trade(self, sinal):
+        status, id = self.Robo.trade(sinal)
+        return status, id
+    
+    def resultado(self, id):
+        resultado, lucro = self.Robo.resultado(id)
+        return resultado, lucro
 
 if __name__ == '__main__':
     OPAL().run()

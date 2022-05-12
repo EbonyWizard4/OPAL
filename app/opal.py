@@ -18,9 +18,11 @@ import json
 from datetime import datetime, timedelta
 from functools import partial
 
+#Gerencia a troca entre a tela login e a tela do app
 class Gerenciador(ScreenManager):
     pass
 
+#Recebe as credenciais e chama a rotina de login
 class TelaLogin(Screen):
     #-> faz login
     def login(self):
@@ -45,13 +47,15 @@ class TelaLogin(Screen):
         self.ids.Login.text = ''
         self.ids.Senha.text = ''
 
+#Exibe dados do usuári e as telas do app
 class TelaApp(Screen):
     #-> carrega informações ao abrir a tela
     def on_pre_enter(self):
-        self.nome, self.banca = 'OPAL().perfil()','100000'
+        self.nome, self.banca = 'OPAL().','perfil()'
         self.ids.Usuario.text = self.nome
         self.ids.Banca.text = self.banca        
 
+# Contem botões de acesso as telas do app
 class TelaMenu(Screen):
     #-> muda para tela sinais
     def sinais(self):
@@ -60,7 +64,8 @@ class TelaMenu(Screen):
     #-> muda para tela de trade
     def trade(self):
         self.parent.current = 'TelaTrade'
-    
+
+#Recebe os dados do sinal e chama a rotina de salvamento
 class TelaSinais(Screen):
     #-> define o número de gales
     def switch_gale(self):
@@ -132,6 +137,8 @@ class TelaSinais(Screen):
     def trade(self):
         self.parent.current = 'TelaTrade'
 
+# Exibe as informações dos trades programados e realizados 
+# e chama a rotina de execução.
 class TelaTrade(Screen):
     #-> quando a TelaTrade é chamada, le a lista de sinais e manda inserir na tela os sinais encontrados.
     def on_pre_enter(self, *args):
@@ -271,7 +278,8 @@ class TelaTrade(Screen):
         len(self.ids.Lista.children)
         for widget in range(numero):
             self.ids.Lista.remove_widget(self.ids.Lista.children[-1])
-        
+
+# Exibe e exclui sinais da lista
 class SinalTrade(BoxLayout):
     def __init__(self,sinal=[], **kwargs):
         super().__init__(**kwargs)
@@ -287,8 +295,8 @@ class SinalTrade(BoxLayout):
         TelaTrade().atualiza_agenda(sinal)
         OPAL().exclui_sinal(sinal)
         self.parent.remove_widget(self)
-        
 
+# Exibe alertas do sistema
 class Pop_up(Popup):
     def pop_up(self, titulo, texto):
         box = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
@@ -297,6 +305,7 @@ class Pop_up(Popup):
         box.add_widget(Button(text = 'OK', on_release = popup.dismiss))
         popup.open()
     
+# Formata caixa de texto para hora e minutos
 class MyTextInput(TextInput):
     max_characters = NumericProperty(1)
     def insert_text(self, substring, from_undo=False):
@@ -304,8 +313,21 @@ class MyTextInput(TextInput):
                 self.text = '00'
         else:
             self.text = '00'
-        # return super()._on_textinput_focused(instance, value, *largs)
-    
+        return super()._on_textinput_focused(instance, value, *largs)
+
+# Formata caixa de texto para receber hora
+class MyTextInput_Hora(MyTextInput):
+    def _on_textinput_focused(self, instance, value, *largs):
+        if self.text != '':
+            hora = int(self.text)
+            if hora > 23 or hora < 0:
+                Pop_up().pop_up('Horario Invalido!', 'Corrija o capo hora e tente novamente!')
+                self.text = '00'
+        else:
+            self.text = '00'
+        return super()._on_textinput_focused(instance, value, *largs)
+
+# Formata caixa de texto para receber minuto
 class MyTextInput_Minuto(MyTextInput):
     def _on_textinput_focused(self, instance, value, *largs):
         if self.text != '':
@@ -317,6 +339,7 @@ class MyTextInput_Minuto(MyTextInput):
             self.text = '00'
         return super()._on_textinput_focused(instance, value, *largs)
 
+# Chama as funções do robo e daas telas
 class OPAL(App):
     Robo = Robo()
     agenda = TelaTrade().le_agenda()

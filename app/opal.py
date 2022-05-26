@@ -1,4 +1,5 @@
 from distutils.command.build import build
+from threading import get_native_id
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -78,6 +79,7 @@ class TelaSinais(Screen):
         else:
             self.ids.Gale2.disabled = True
             self.gale = '0'
+    
     #-> valida sinais antes de salvar
     def salva_sinal(self):
         sinais = OPAL().le_sinais()
@@ -307,16 +309,18 @@ class Pop_up(Popup):
     
 # Formata caixa de texto para hora e minutos
 class MyTextInput(TextInput):
+    """Classe responsavel por limitar o número de caracteres nos campos de texto
+    permite apenas 2 caracteres númericos iteiros
+    """
     max_characters = NumericProperty(1)
     def insert_text(self, substring, from_undo=False):
         if len(self.text) > self.max_characters and self.max_characters > 0:
-                self.text = '00'
-        else:
-            self.text = '00'
-        return super()._on_textinput_focused(instance, value, *largs)
+            substring = ''
+        TextInput.insert_text(self, substring, from_undo)
 
 # Formata caixa de texto para receber hora
 class MyTextInput_Hora(MyTextInput):
+    """Classe responsável por validar a hora inserida"""
     def _on_textinput_focused(self, instance, value, *largs):
         if self.text != '':
             hora = int(self.text)
@@ -325,10 +329,12 @@ class MyTextInput_Hora(MyTextInput):
                 self.text = '00'
         else:
             self.text = '00'
+            pass
         return super()._on_textinput_focused(instance, value, *largs)
-
+        
 # Formata caixa de texto para receber minuto
 class MyTextInput_Minuto(MyTextInput):
+    """Classe responsável por validar o valor de minutos inserido"""
     def _on_textinput_focused(self, instance, value, *largs):
         if self.text != '':
             hora = int(self.text)
@@ -337,7 +343,7 @@ class MyTextInput_Minuto(MyTextInput):
                 self.text = '00'
         else:
             self.text = '00'
-        return super()._on_textinput_focused(instance, value, *largs)
+            pass
 
 # Chama as funções do robo e daas telas
 class OPAL(App):

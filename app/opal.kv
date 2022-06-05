@@ -45,12 +45,6 @@
             BoxLayout:
                 orientation:
 
-
-
-
-
-
-
 <TelaApp>:
     name:'TelaApp'
     BoxLayout: #principal
@@ -80,7 +74,6 @@
             TelaMenu:
             TelaSinais:
             TelaTrade:
-
 
 <TelaMenu>:
     name: 'TelaMenu'
@@ -359,7 +352,6 @@
             BoxLayout:
                 orientation:
 
-
 <TelaTrade>:
     name:'TelaTrade'
     BoxLayout: #Principal
@@ -370,10 +362,12 @@
             font_size: 30
             size_hint_y: None
             height: 40
+        
         BoxLayout:# Elementos de Tela
             orientation:'horizontal'
             padding: 10
             spacing: 10
+            
             BoxLayout: #-> Container informativo
                 orientation:'vertical'
                 spacing: 10
@@ -489,7 +483,8 @@
                                 
             BoxLayout: #-> Container da Lista
                 orientation:'vertical'
-                canvas:
+                
+                canvas: 
                     Color:
                         rgba: 0.3, 0.3, 0.3, 0.3
                     Rectangle:
@@ -554,6 +549,9 @@
             Button:
                 text:'Menu'
                 on_release: root.parent.current='TelaMenu'
+            Button:
+                text:'Stop Trade'
+                on_release: root.start_trade()
             Button:
                 text:'Start Trade'
                 on_release: root.start_trade()

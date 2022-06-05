@@ -1,5 +1,5 @@
 from distutils.command.build import build
-from threading import get_native_id
+
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -170,18 +170,32 @@ class TelaTrade(Screen):
     #-> pega a lista de sinais e a agenda, compara cada sinal com o que há na agenda, caso o sinal não esteja na agenda:
     #-> calcula o tempo que falta para a hora do sinal e agenda a execução do sinal, manda atualizar e mostrar a agenda.
     def start_trade(self):
-        self.ordens = []
+        self.ordens = [] 
         self.hora = datetime.strftime(datetime.now(), "%H:%M:%S")
         self.lista = self.le_sinais()
         agenda = self.le_agenda()
+        
+        #-> Exclui o primeiro elemento de cada sinal na agenda
         for item in agenda:
             item.pop(0)
+
+        #-> Agenda sinais que não estão agendados    
         for self.sinal in self.lista:
+            #-> verifica se o sinal está agendado
             if self.sinal in agenda:
                 pass
             else:
-                self.tempo = datetime.strptime(self.sinal[0] + ':00', '%H:%M:%S') - datetime.strptime(self.hora, '%H:%M:%S') 
+                #-> converte o horário sinal em unidade de tempo
+                self.tempo = datetime.strptime(
+                        self.sinal[0] + ':00', 
+                        '%H:%M:%S'
+                    ) - datetime.strptime(
+                        self.hora, 
+                        '%H:%M:%S'
+                    )
                 self.tempo = timedelta.total_seconds(self.tempo)
+                
+                #-> Verifica se o sinal é para o mesmo dia ou para o próximo e faz o agendamento.
                 if self.tempo <= 0:
                     self.tempo = self.tempo + 86400
                     self.agendar_trade()
@@ -191,7 +205,7 @@ class TelaTrade(Screen):
 
     #-> agenda a execução do trade, insere o tempo na cinal agendado, salva na agenda.
     def agendar_trade(self):
-        self.ordens.append(Clock.schedule_once(partial(self.trade, self.sinal, Any), self.tempo))
+        self.ordens.append(Clock.schedule_once(partial(self.trade, self.sinal), self.tempo))
         sinal = self.sinal[:]
         sinal.insert(0, self.tempo)
         agenda = self.le_agenda()
@@ -382,5 +396,6 @@ class OPAL(App):
         resultado, lucro = self.Robo.resultado(id)
         return resultado, lucro
 
+# Linha que inicia o sistema
 if __name__ == '__main__':
     OPAL().run()

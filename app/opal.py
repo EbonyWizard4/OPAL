@@ -23,14 +23,14 @@ from functools import partial
 class Gerenciador(ScreenManager):
     pass
 
-#Recebe as credenciais e chama a rotina de login
+#Recebe as credenciais e chama a rotina de login (7/7 funcionando)
 class TelaLogin(Screen):
     #-> faz login
     def login(self):
         self.email = str(self.ids.Login.text)
         self.senha = str(self.ids.Senha.text)
         if '@' in self.email:
-            self.API = 'OPAL().login(self.email, self.senha)'
+            self.API = OPAL().login(self.email, self.senha)
         else:
             Pop_up().pop_up(
                 'Erro ao efetuar o Login',
@@ -52,7 +52,7 @@ class TelaLogin(Screen):
 class TelaApp(Screen):
     #-> carrega informações ao abrir a tela
     def on_pre_enter(self):
-        self.nome, self.banca = 'OPAL().','perfil()'
+        self.nome, self.banca = OPAL().perfil()
         self.ids.Usuario.text = self.nome
         self.ids.Banca.text = self.banca        
 

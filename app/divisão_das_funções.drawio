@@ -1,0 +1,25 @@
+<mxfile host="65bd71144e">
+    <diagram id="fHe_8uKbHzjOx5UuiTHo" name="Página-1">
+        <mxGraphModel dx="1333" dy="585" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;h1&gt;Extrutura Planejada 01&lt;/h1&gt;&lt;p&gt;Transferir a responsabilidade de fazer os agendamentos para a tela de cadastro dos sinais&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="32" y="33" width="190" height="147" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Tela Sinais" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="210" width="570" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="1 - Recebe os sinais que o usuário insere" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontSize=20;" vertex="1" parent="24">
+                    <mxGeometry y="30" width="570" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="2 - Valida as informaçẽso e envia para&#10;     as listas de dados" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontSize=20;" vertex="1" parent="24">
+                    <mxGeometry y="60" width="570" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="3 -  Lê as informações na lista e gaz os agendamentos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontSize=20;" vertex="1" parent="24">
+                    <mxGeometry y="90" width="570" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

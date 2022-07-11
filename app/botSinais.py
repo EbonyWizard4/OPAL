@@ -5,7 +5,7 @@ import json
 class Robo():
     # --- SISTEMA DE LOGIN --- #
     def singin(self, email='', senha=''):
-        error_password="""{"code":"invalid_credentials","message":"You entered the wrong credentials. Please check that the login/password is correct."}"""
+       
         self.API = IQ_Option("antonio.jhone@hotmail.com", "Krishinna@1")
         self.check,self.reason=self.API.connect()
         
@@ -16,7 +16,7 @@ class Robo():
         else:
             if self.reason=="[Errno -2] Name or service not known":
                 print("No Network")
-            elif self.reason==error_password:
+            elif self.reason:
                 print("Error Password")
  
     def perfil(self):

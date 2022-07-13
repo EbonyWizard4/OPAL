@@ -227,7 +227,6 @@ class TelaTrade(Screen):
         except:
             self.ids.HoraTrade.text = '--:--'
                 
-
     #-> salva a agenda no arquivo agenda.json        
     def salva_agenda(self, agenda):
         with open('agenda.json', 'w') as a:
@@ -245,11 +244,11 @@ class TelaTrade(Screen):
     #-> abre a ordem de acordo com o sinal, agenda a leitura do resultado para o final do tempo.
     #-> remove o sinal da lista de trades e atualiza a agenda
     def trade(self, sinal=[], *args, **kwargs):
-        self.atualiza_agenda(sinal)
         status, id = OPAL().trade(sinal)
         tempo = int(sinal[3])*60
         if status:
             Clock.schedule_once(partial(self.resultado, id, sinal), tempo)
+        self.atualiza_agenda(sinal)
 
 
     #-> pega agenda, remove o primeiro indice (tempo), identifica a poição na lista do sinal que está sendo executado
@@ -260,9 +259,9 @@ class TelaTrade(Screen):
         lista = self.le_agenda()
         for item in lista:
             item.pop(0)
-        for c, v in enumerate(lista):
-            if v == sinal:
-                agenda.pop(c)
+        for chave, item in enumerate(lista):
+            if item == sinal:
+                agenda.pop(chave)
                 self.salva_agenda(agenda)
         OPAL().exclui_sinal(sinal)
         self.mostra_agenda()

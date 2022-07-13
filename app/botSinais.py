@@ -48,6 +48,7 @@ class Robo():
         try:
             with open('sinais.json', 'r') as s:
                 self.sinais = json.load(s)
+            
             return self.sinais
         except:
             return sinais
@@ -60,16 +61,21 @@ class Robo():
         self.salva_sinais(self.sinais)
 
     def trade(self, sinal=[]):
-        lista = self.le_sinais
+        lista = self.le_sinais()
+        print('-----------------------------------------------------------')
+        print(lista)
+        print('-----------------------------------------------')
+        print(sinal)
         try:
             if sinal in lista:
-                status,id = 'loss', '2'#self.API.buy(sinal[4], sinal[1], sinal[2], sinal[3])
+                status,id = self.API.buy(sinal[4], sinal[1], sinal[2], sinal[3])
                 return status, id
         except:
+            print('sinal not found')
             return None, None
             
     def resultado(self, id):
-        resultado, lucro = 'loss', '0' #self.API.check_win_v3(id)
+        resultado, lucro = self.API.check_win_v3(id)
         return resultado, lucro
 
 

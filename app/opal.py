@@ -250,7 +250,6 @@ class TelaTrade(Screen):
             Clock.schedule_once(partial(self.resultado, id, sinal), tempo)
         self.atualiza_agenda(sinal)
 
-
     #-> pega agenda, remove o primeiro indice (tempo), identifica a poição na lista do sinal que está sendo executado
     #-> remove da agenda e da lista de sinais o sinal que esta sendo executado.
     #-> atualiza as informações de tela 

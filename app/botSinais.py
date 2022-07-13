@@ -70,8 +70,10 @@ class Robo():
             if sinal in lista:
                 status,id = self.API.buy(sinal[4], sinal[1], sinal[2], sinal[3])
                 return status, id
+            else:
+                print('sinal not found')
+                return None, None
         except:
-            print('sinal not found')
             return None, None
             
     def resultado(self, id):

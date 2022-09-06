@@ -1,4 +1,4 @@
-#!/home/ebw4/Python_Project/OPAL/bin/python3
+#!/home/ebw4/Python_Project/OPAL/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

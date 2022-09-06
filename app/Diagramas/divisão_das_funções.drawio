@@ -1,0 +1,60 @@
+<mxfile host="65bd71144e">
+    <diagram id="fHe_8uKbHzjOx5UuiTHo" name="Página-1">
+        <mxGraphModel dx="911" dy="488" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;h1&gt;Extrutura Planejada 01&lt;/h1&gt;&lt;p&gt;Transferir a responsabilidade de fazer os agendamentos para a tela de cadastro dos sinais&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="32" y="33" width="190" height="147" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="27" target="29">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="290" y="90"/>
+                            <mxPoint x="290" y="170"/>
+                            <mxPoint x="210" y="170"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="32" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.05;exitY=0.833;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="27" target="31">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="310" y="110"/>
+                            <mxPoint x="310" y="190"/>
+                            <mxPoint x="380" y="190"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="35" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="27" target="34">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="554" y="170"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="37" style="edgeStyle=none;html=1;entryX=0.552;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="27" target="36">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="769" y="90"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="27" value="ao iniciar a tela:&lt;br&gt;&lt;br&gt;1. carrega a lista de sinais para exibição" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="354" y="60" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="bt_inserir sinais&lt;br&gt;&lt;br&gt;1. inicia a rotina de troca de tela passando a tela sinais" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="210" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="bt_start&lt;br&gt;&lt;br&gt;1. inicia a rotina de trade" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="220" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="bt_stop&lt;br&gt;&lt;br&gt;1. inicia a rotina de canselamento dos sinais" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="474" y="210" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="bt_menu&lt;br&gt;&lt;br&gt;1. inicia a rotina de troca de tela passando a tela menu" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="670" y="210" width="180" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

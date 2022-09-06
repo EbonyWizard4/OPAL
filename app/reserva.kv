@@ -1,0 +1,113 @@
+            
+            BoxLayout: #-> Container informativo
+                orientation:'vertical'
+                spacing: 10
+                size_hint_x: None
+                width: 250
+
+                BoxLayout: #-> Próximo Trade
+                    orientation:'vertical'
+                    id: Trade
+                    padding: 60
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    Label:
+                        text:'Próximo Trade às:'
+                        size_hint_y: None
+                        height: 40
+                    Label:
+                        id:HoraTrade
+                        text:'--:--'
+                        font_size: 50
+
+                BoxLayout: #-> Resultados
+                    orientation:'vertical'
+                    id: Cronometro
+                    canvas:
+                        Color:
+                            rgba: 0.3, 0.3, 0.3, 0.3
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    Label:
+                        id: Win_Rit
+                        text:'Win/Rit'
+                        size_hint_y: None
+                        height: 40
+                    Label:
+                        text:'---%'
+                        font_size: 50
+                    Label:
+                        id: Win_Rit
+                        text:
+                        size_hint_y: None
+                        height: 40
+                    BoxLayout: #-> Container das parciais 
+                        orientation:'horizontal'
+                        id: Resultados_Parciais
+                        padding: 2
+                        spacing: 2
+                        BoxLayout: #-> Primeiro Lance
+                            orientation:'vertical'
+                            id: Primeiro_Lance
+                            canvas:
+                                Color:
+                                    rgba: 0.5, 0.5, 0.5, 0.5
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos                            
+                            Label:
+                                id: Titulo_Primeiro_Lance
+                                text: 'Entrada'
+                            Label:
+                                id: Resultado_Primeiro_Lance
+                                text:'--'
+                        BoxLayout: #-> Gale 1
+                            orientation:'vertical'
+                            id: Gale_1
+                            canvas:
+                                Color:
+                                    rgba: 0.5, 0.5, 0.5, 0.5
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos  
+                            Label:
+                                id: Titulo_Gale_1
+                                text: 'M.G. 1'
+                            Label:
+                                id: Resultado_Gale_1
+                                text:'--'
+                        BoxLayout: #-> Gale 2
+                            orientation:'vertical'
+                            id: Gale_2
+                            canvas:
+                                Color:
+                                    rgba: 0.5, 0.5, 0.5, 0.5
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos  
+                            Label:
+                                id: Titulo_Gale_2
+                                text: 'M.G. 2'
+                            Label:
+                                id: Resultado_Gale_2
+                                text:'--'
+                        BoxLayout: #-> RIT
+                            orientation:'vertical'
+                            id: Rit
+                            canvas:
+                                Color:
+                                    rgba: 0.5, 0.5, 0.5, 0.5
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos  
+                            Label:
+                                id: Titulo_Rit
+                                text: 'Rit'
+                            Label:
+                                id: Resultado_Rit
+                                text:'--'

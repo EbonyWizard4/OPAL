@@ -367,6 +367,7 @@
             orientation:'horizontal'
             padding: 10
             spacing: 10
+
             
             BoxLayout: #-> Container informativo
                 orientation:'vertical'
@@ -385,7 +386,13 @@
                             size: self.size
                             pos: self.pos
                     Label:
-                        text:'Próximo Trade às:'
+                        id:'Rotulo'
+                        text:'Status de execução:'
+                        size_hint_y: None
+                        height: 40
+                    Label:
+                        id:'Rotulo'
+                        text:'Próximo Trade:'
                         size_hint_y: None
                         height: 40
                     Label:
@@ -549,13 +556,13 @@
                 on_release: root.parent.current='TelaMenu'
             Button:
                 text:'Stop Trade'
-                on_release: root.start_trade()
+                on_release: root.cancelar_trade()
             Button:
                 text:'Start Trade'
                 on_release: root.start_trade()
             Button:
                 text:'Inserir Sinais'
-                on_release: root.parent.current='TelaSinais'
+                on_release: root.para_TelaSinais()
             BoxLayout:
                 orientation:
 

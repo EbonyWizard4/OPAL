@@ -1,5 +1,3 @@
-from distutils.command.build import build
-
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -14,6 +12,7 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 
 from botSinais import Robo
+
 
 import json
 from datetime import datetime, timedelta
@@ -54,7 +53,8 @@ class TelaApp(Screen):
     def on_pre_enter(self):
         self.nome, self.banca = OPAL().perfil()
         self.ids.Usuario.text = self.nome
-        self.ids.Banca.text = self.banca        
+        self.ids.Banca.text = self.banca    
+        self.ordens = [] #-> cria uma lista     
 
 # Contem botões de acesso as telas do app
 class TelaMenu(Screen):
@@ -142,18 +142,16 @@ class TelaSinais(Screen):
 # Exibe as informações dos trades programados e realizados 
 # e chama a rotina de execução.
 class TelaTrade(Screen):
+
     #-> quando a TelaTrade é chamada, le a lista de sinais e manda inserir na tela os sinais encontrados.
     def on_pre_enter(self, *args):
+        print('on pré enter')
         self.sinais = self.le_sinais()
         self.insere_widget(self.sinais)
-
-    #-> insere na tela os sinais.
-    def insere_widget(self, sinais):
-        for sinal in sinais:
-            self.ids.Lista.add_widget(SinalTrade(sinal))
     
     #-> le os sinais da lista de sinais.
     def le_sinais(self):
+        print('le sinais')
         self.sinais = OPAL().le_sinais()
         if self.sinais == []:
             Pop_up().pop_up(
@@ -162,93 +160,149 @@ class TelaTrade(Screen):
             )
             self.para_TelaSinais()
         return self.sinais
-        
+
+    #-> insere na tela os sinais.
+    def insere_widget(self, sinais):
+        print('insere widget')
+        for sinal in sinais:
+            self.ids.Lista.add_widget(SinalTrade(sinal))
+                
     #-> troca para tela de inserir sinais
     def para_TelaSinais(self):
+        print('para_tela_sinais()')
         self.parent.current = 'TelaSinais'
+        self.cancelar_trade()
+    
+    #-> quando a TelaTrade é destruida, le os sinais que estão na tela e manda remover, evitando duplicidade de informação    
+    def on_pre_leave(self, *args):
+        print('On pré Leave')
+        self.cancelar_trade()
+        # self.limpa_lista()
+
+    #-> limpa lista de trades na tela
+    def limpa_lista(self):
+        print('limpa_lista()')
+        numero = len(self.ids.Lista.children)
+        self.exclui_widget(numero)
+
+    #-> remove os sinais que estão aparecendo na tela pela ordem de apresentação    
+    def exclui_widget(self, numero):
+        for widget in range(numero):
+            self.ids.Lista.remove_widget(self.ids.Lista.children[-1])
 
     #-> pega a lista de sinais e a agenda, compara cada sinal com o que há na agenda, caso o sinal não esteja na agenda:
     #-> calcula o tempo que falta para a hora do sinal e agenda a execução do sinal, manda atualizar e mostrar a agenda.
     def start_trade(self):
-        self.ordens = [] 
-        self.hora = datetime.strftime(datetime.now(), "%H:%M:%S")
-        self.lista = self.le_sinais()
-        agenda = self.le_agenda()
         
-        #-> Exclui o primeiro elemento de cada sinal na agenda
-        for item in agenda:
-            item.pop(0)
+        self.ordens = []
 
-        #-> Agenda sinais que não estão agendados    
-        for self.sinal in self.lista:
-            #-> verifica se o sinal já está agendado
-            if self.sinal in agenda:
-                pass
-            else:
-                #-> converte o horário sinal em unidade de tempo
-                self.tempo = datetime.strptime(
-                        self.sinal[0] + ':00', 
-                        '%H:%M:%S'
-                    ) - datetime.strptime(
-                        self.hora, 
-                        '%H:%M:%S'
-                    )
-                self.tempo = timedelta.total_seconds(self.tempo)
-                
-                #-> Verifica se o sinal é para o mesmo dia ou para o próximo e faz o agendamento.
-                if self.tempo <= 0:
-                    self.tempo = self.tempo + 86400
-                    self.agendar_trade()
-                else:
-                    self.agendar_trade()
-        self.mostra_agenda()
+        #-> Agenda sinais
+        for sinal in self.sinais:
+            #-> calcula o tempo para execução do trade.
+            self.tempo = self.calcular_tempo(sinal)
+            #-> Agenda a execução do trade.
+            self.agendar_trade(sinal)
+            
+        # self.mostra_agenda()
+        # -> printa a hora de cada sinal
+        # for ordem in self.ordens:
+        #     print(ordem[1][0])
+        print('start Trade!')
         
+    #-> Calcular tempo
+    def calcular_tempo(self, sinal) -> int:
+        dia = 68400
+        hora = datetime.strftime(datetime.now(), "%H:%M:%S") #-> captura a hora atual
+        tempo = timedelta.total_seconds(
+            datetime.strptime(
+                sinal[0] + ':00', 
+                '%H:%M:%S'
+                ) - datetime.strptime(
+                hora, 
+                '%H:%M:%S'
+            )
+        ) - 1
+        if tempo <= 0:
+            tempo = tempo + dia
+        else:
+            pass
+        return tempo
+
     #-> agenda a execução do trade, insere o tempo na cinal agendado, salva na agenda.
-    def agendar_trade(self):
-        self.ordens.append(Clock.schedule_once(partial(self.trade, self.sinal), self.tempo))
-        sinal = self.sinal[:]
-        sinal.insert(0, self.tempo)
-        agenda = self.le_agenda()
-        agenda.append(sinal)
-        self.salva_agenda(agenda)
+    def agendar_trade(self, sinal):
 
-    #-> salva a agenda no arquivo agenda.json        
+        ordem = Clock.schedule_once(partial(self.realiza_trade, sinal), self.tempo), sinal
+        TelaApp().ordens.append(ordem)
+        # print(self.ordens[0][1])
+        # sinal = sinal[:]
+        # sinal.insert(0, self.tempo)
+        # self.agenda.append(sinal)
+        # self.salva_agenda(self.agenda)
+        print('agendar trade')
+
+
+
+
+
     def salva_agenda(self, agenda):
+        print('salva agenda')
         with open('agenda.json', 'w') as a:
             json.dump(agenda, a)
 
-    #-> le a agenda, coloca em ordem pelo tempo para o proximo trade, atualiza a lista de sinais, atualiza o horario do proximo trade.        
-    def mostra_agenda(self):
-        print("Mostra Agenda")
-        agenda = self.le_agenda()
-        agenda.sort()
-        for sinal in agenda:
-            if len(sinal) == 8:
-                sinal.pop(0)
-        self.on_pre_leave()
-        self.insere_widget(agenda)
-        self.proximo_trade(agenda)
 
-    def proximo_trade(self, agenda=[]):
-        print("proximo Trade")
-        try:
-            print(agenda[0][0])
-            self.ids.HoraTrade.text = agenda[0][0]
-        except:
-            self.ids.HoraTrade.text = '--:--'
-                
+
+
+    #-> Carrega o conteúdo da agenda sem o primeiro item
+    def carrega_agenda(self):
+        print('carrega agenda!')
+        agenda = self.le_agenda()
+        for item in agenda:
+            item.pop(0)
+        return agenda
+
     #-> le o arquivo agenda.json
     def le_agenda(self, agenda=[]):
+        print('Le agenda')
         try:
             with open('agenda.json', 'r') as a:
                 agenda = json.load(a)
             return agenda
         except:
             return agenda
-                   
+
+    #-> salva a agenda no arquivo agenda.json        
+    def salva_agenda(self, agenda):
+        print('salva agenda')
+        with open('agenda.json', 'w') as a:
+            json.dump(agenda, a)
+
+    #-> le a agenda, coloca em ordem pelo tempo para o proximo trade, atualiza a lista de sinais, atualiza o horario do proximo trade.        
+    def mostra_agenda(self):
+
+        # agenda = self.le_agenda()
+        # print(agenda)
+        # agenda.sort()
+        # for sinal in agenda:
+        #     if len(sinal) == 8:
+        #         sinal.pop(0)
+        # self.limpa_lista()
+        # self.insere_widget(agenda)
+        # self.proximo_trade(agenda)
+        print("Mostra Agenda")
+
+    #-> Exibe o proximo trade na tela
+    def proximo_trade(self, agenda=[]):
+    #     print("proximo Trade")
+    #     try:
+    #         # print(agenda[0][0])
+    #         self.ids.HoraTrade.text = agenda[0][0]
+    #     except:
+    #         self.ids.HoraTrade.text = '--:--'
+        pass
+                
     #-> abre a ordem de acordo com o sinal, agenda a leitura do resultado para o final do tempo.
     #-> remove o sinal da lista de trades e atualiza a agenda
-    def trade(self, sinal=[], *args, **kwargs):
+    def realiza_trade(self, sinal=[], *args, **kwargs):
         status, id = OPAL().trade(sinal)
         tempo = int(sinal[3])*60
         if status:
@@ -271,8 +325,8 @@ class TelaTrade(Screen):
         self.mostra_agenda()
             
     #-> verifica se a operação foi vencedora ou não:
-    #-> se foi vencedora atualiza a seção win/rit
-    #-> se foi perdedora abre nova ordem de acordo com o numero de gales.
+    #-#-> se foi vencedora atualiza a seção win/rit
+    #-#-> se foi perdedora abre nova ordem de acordo com o numero de gales.
     def resultado(self, id, sinal, *args, **kwargs):
         gale = int(sinal[6])
         resultado, lucro = OPAL().resultado(id)
@@ -287,17 +341,15 @@ class TelaTrade(Screen):
     def para_TelaMenu(self):
         self.parent.current = 'TelaMenu'
 
-    #-> quando a TelaTrade é destruida, le os sinais que estão na tela e manda remover, evitando duplicidade de informação    
-    def on_pre_leave(self, *args):
-        numero = len(self.ids.Lista.children)
-        self.exclui_widget(numero)
 
-    #-> remove os sinais que estão aparecendo na tela pela ordem de apresentação    
-    def exclui_widget(self, numero):
-        len(self.ids.Lista.children)
-        for widget in range(numero):
-            self.ids.Lista.remove_widget(self.ids.Lista.children[-1])
-        
+
+    #-> Cancela os trades agendados
+    def cancelar_trade(self):
+        for item in self.ordens:
+            Clock.unschedule(item)
+        # self.mostra_agenda()
+        self.limpa_lista()
+
 # Exibe e exclui sinais da lista
 class SinalTrade(BoxLayout):
     def __init__(self,sinal=[], **kwargs):

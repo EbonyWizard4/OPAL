@@ -18,9 +18,12 @@ kivy.require('1.0.6')  # replace with your current kivy version !
 class Gerenciador(ScreenManager):
     pass
 
+# Dispara o processo de login
+
 
 class TelaLogin(Screen):
-    # -> faz login
+    """Classe responsavel por fazer o login"""
+
     def login(self):
         self.email = str(self.ids.Login.text)
         self.senha = str(self.ids.Senha.text)
@@ -152,6 +155,7 @@ class TelaTrade(Screen):
         print('on pré enter')
         self.sinais = self.le_sinais()
         self.insere_widget(self.sinais)
+        self.ordens = []
 
     # -> le os sinais da lista de sinais.
     def le_sinais(self):
@@ -175,12 +179,12 @@ class TelaTrade(Screen):
     def para_TelaSinais(self):
         print('para_tela_sinais()')
         self.parent.current = 'TelaSinais'
-        self.cancelar_trade()
+        # self.cancelar_trade()
 
     # -> quando a TelaTrade é destruida, le os sinais que estão na tela e manda remover, evitando duplicidade de informação
     def on_pre_leave(self, *args):
         print('On pré Leave')
-        self.cancelar_trade()
+        # self.cancelar_trade()
         # self.limpa_lista()
 
     # -> limpa lista de trades na tela
@@ -188,6 +192,7 @@ class TelaTrade(Screen):
         print('limpa_lista()')
         numero = len(self.ids.Lista.children)
         self.exclui_widget(numero)
+        self.sinais.clear()
 
     # -> remove os sinais que estão aparecendo na tela pela ordem de apresentação
     def exclui_widget(self, numero):
@@ -196,16 +201,19 @@ class TelaTrade(Screen):
 
     # -> pega a lista de sinais e a agenda, compara cada sinal com o que há na agenda, caso o sinal não esteja na agenda:
     # -> calcula o tempo que falta para a hora do sinal e agenda a execução do sinal, manda atualizar e mostrar a agenda.
-    def start_trade(self):
+    def bt_start_trade(self):
+        """Inicia a execução dos Trades!"""
+        if self.sinais != []:
+            for sinal in self.sinais:
+                self.tempo = self.calcular_tempo(sinal)
+                self.agendar_trade(sinal)
+        else:
+            Pop_up().pop_up(
+                'Não há sinais na lista!',
+                'Insira novos sinais e tente novamente!'
+            )
+            self.parent.current = 'TelaSinais'
 
-        self.ordens = []
-
-        # -> Agenda sinais
-        for sinal in self.sinais:
-            # -> calcula o tempo para execução do trade.
-            self.tempo = self.calcular_tempo(sinal)
-            # -> Agenda a execução do trade.
-            self.agendar_trade(sinal)
 
         # self.mostra_agenda()
         # -> printa a hora de cada sinal
@@ -238,7 +246,7 @@ class TelaTrade(Screen):
 
         ordem = Clock.schedule_once(
             partial(self.realiza_trade, sinal), self.tempo), sinal
-        TelaApp().ordens.append(ordem)
+        self.ordens.append(ordem)
         # print(self.ordens[0][1])
         # sinal = sinal[:]
         # sinal.insert(0, self.tempo)
@@ -343,7 +351,7 @@ class TelaTrade(Screen):
 
     # -> Cancela os trades agendados
 
-    def cancelar_trade(self):
+    def bt_cancelar_trade(self):
         for item in self.ordens:
             Clock.unschedule(item)
         # self.mostra_agenda()
@@ -370,7 +378,7 @@ class SinalTrade(BoxLayout):
 
 
 class Pop_up(Popup):
-    """Classe responsavel por criar os popup's com os testes definidos pelo chamado"""
+    """Classe responsavel por criar os popup's com os textos definidos pelo chamado"""
 
     def pop_up(self, titulo, texto):
         box = BoxLayout(orientation='vertical', padding=20, spacing=10)

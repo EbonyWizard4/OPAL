@@ -556,13 +556,13 @@
                 on_release: root.parent.current='TelaMenu'
             Button:
                 text:'Stop Trade'
-                on_release: root.cancelar_trade()
+                on_release: root.bt_cancelar_trade()
             Button:
                 text:'Start Trade'
-                on_release: root.start_trade()
+                on_release: root.bt_start_trade()
             Button:
                 text:'Inserir Sinais'
-                on_release: root.para_TelaSinais()
+                on_release: root.parent.current='TelaSinais'
             BoxLayout:
                 orientation:
 

@@ -50,6 +50,8 @@ class TelaLogin(Screen):
 
 
 class TelaApp(Screen):
+    """Responsável pelos elementos fixos na tela como: nome e banca do usuário."""
+    
     # -> carrega informações ao abrir a tela
     def on_pre_enter(self):
         self.nome, self.banca = OPAL().perfil()
@@ -61,6 +63,8 @@ class TelaApp(Screen):
 
 
 class TelaMenu(Screen):
+    """Permite escolher qual funcionalidade será acessada"""
+
     # -> muda para tela sinais
     def sinais(self):
         self.parent.current = 'TelaSinais'
@@ -73,6 +77,8 @@ class TelaMenu(Screen):
 
 
 class TelaSinais(Screen):
+    """Permite o preenchimento da lista de sinais"""
+
     # -> define o número de gales
     def switch_gale(self):
         if self.ids.Gale1.active == True:
@@ -149,6 +155,7 @@ class TelaSinais(Screen):
 
 
 class TelaTrade(Screen):
+    """Tela responsável por exibir a lista de sinais inseridos, agendar a execução e mostrar os resultados das orperações!"""
 
     # -> quando a TelaTrade é chamada, le a lista de sinais e manda inserir na tela os sinais encontrados.
     def on_pre_enter(self, *args):
@@ -177,14 +184,15 @@ class TelaTrade(Screen):
 
     # -> troca para tela de inserir sinais
     def para_TelaSinais(self):
+        """Troca para a tela de inserir sinais"""
+
         print('para_tela_sinais()')
         self.parent.current = 'TelaSinais'
-        # self.cancelar_trade()
 
     # -> quando a TelaTrade é destruida, le os sinais que estão na tela e manda remover, evitando duplicidade de informação
     def on_pre_leave(self, *args):
         print('On pré Leave')
-        # self.cancelar_trade()
+        self.bt_cancelar_trade()
         # self.limpa_lista()
 
     # -> limpa lista de trades na tela
@@ -213,7 +221,6 @@ class TelaTrade(Screen):
                 'Insira novos sinais e tente novamente!'
             )
             self.parent.current = 'TelaSinais'
-
 
         # self.mostra_agenda()
         # -> printa a hora de cada sinal
@@ -391,7 +398,7 @@ class Pop_up(Popup):
 
 class MyTextInput(TextInput):
     """Classe responsavel por limitar o número de caracteres nos campos de texto
-    permite apenas 2 caracteres númericos iteiros
+    permitindo apenas 2 caracteres númericos iteiros
     """
     max_characters = NumericProperty(1)
 
@@ -408,7 +415,10 @@ class MyTextInput_Hora(MyTextInput):
         if self.text != '':
             hora = int(self.text)
             if hora > 23 or hora < 0:
-                Pop_up().pop_up('Horario Invalido!', 'Corrija o capo hora e tente novamente!')
+                Pop_up().pop_up(
+                    'Horario Invalido!',
+                    'Corrija o capo hora e tente novamente!'
+                )
                 self.text = '00'
         else:
             self.text = '00'
@@ -423,7 +433,10 @@ class MyTextInput_Minuto(MyTextInput):
         if self.text != '':
             hora = int(self.text)
             if hora > 59 or hora < 0:
-                Pop_up().pop_up('Horario Invalido!', 'Corrija o capo minutos e tente novamente!')
+                Pop_up().pop_up(
+                    'Horario Invalido!',
+                    'Corrija o capo minutos e tente novamente!'
+                )
                 self.text = '00'
         else:
             self.text = '00'

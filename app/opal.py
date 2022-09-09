@@ -51,7 +51,7 @@ class TelaLogin(Screen):
 
 class TelaApp(Screen):
     """Responsável pelos elementos fixos na tela como: nome e banca do usuário."""
-    
+
     # -> carrega informações ao abrir a tela
     def on_pre_enter(self):
         self.nome, self.banca = OPAL().perfil()
@@ -157,14 +157,12 @@ class TelaSinais(Screen):
 class TelaTrade(Screen):
     """Tela responsável por exibir a lista de sinais inseridos, agendar a execução e mostrar os resultados das orperações!"""
 
-    # -> quando a TelaTrade é chamada, le a lista de sinais e manda inserir na tela os sinais encontrados.
     def on_pre_enter(self, *args):
         print('on pré enter')
         self.sinais = self.le_sinais()
         self.insere_widget(self.sinais)
         self.ordens = []
 
-    # -> le os sinais da lista de sinais.
     def le_sinais(self):
         print('le sinais')
         self.sinais = OPAL().le_sinais()
@@ -176,39 +174,31 @@ class TelaTrade(Screen):
             self.para_TelaSinais()
         return self.sinais
 
-    # -> insere na tela os sinais.
     def insere_widget(self, sinais):
         print('insere widget')
         for sinal in sinais:
             self.ids.Lista.add_widget(SinalTrade(sinal))
 
-    # -> troca para tela de inserir sinais
     def para_TelaSinais(self):
         """Troca para a tela de inserir sinais"""
 
         print('para_tela_sinais()')
         self.parent.current = 'TelaSinais'
 
-    # -> quando a TelaTrade é destruida, le os sinais que estão na tela e manda remover, evitando duplicidade de informação
     def on_pre_leave(self, *args):
         print('On pré Leave')
         self.bt_cancelar_trade()
-        # self.limpa_lista()
 
-    # -> limpa lista de trades na tela
     def limpa_lista(self):
-        print('limpa_lista()')
+        print('limpa_lista')
         numero = len(self.ids.Lista.children)
         self.exclui_widget(numero)
         self.sinais.clear()
 
-    # -> remove os sinais que estão aparecendo na tela pela ordem de apresentação
     def exclui_widget(self, numero):
         for widget in range(numero):
             self.ids.Lista.remove_widget(self.ids.Lista.children[-1])
 
-    # -> pega a lista de sinais e a agenda, compara cada sinal com o que há na agenda, caso o sinal não esteja na agenda:
-    # -> calcula o tempo que falta para a hora do sinal e agenda a execução do sinal, manda atualizar e mostrar a agenda.
     def bt_start_trade(self):
         """Inicia a execução dos Trades!"""
         if self.sinais != []:
@@ -228,7 +218,6 @@ class TelaTrade(Screen):
         #     print(ordem[1][0])
         print('start Trade!')
 
-    # -> Calcular tempo
     def calcular_tempo(self, sinal) -> int:
         dia = 68400
         # -> captura a hora atual
@@ -248,25 +237,34 @@ class TelaTrade(Screen):
             pass
         return tempo
 
-    # -> agenda a execução do trade, insere o tempo na cinal agendado, salva na agenda.
     def agendar_trade(self, sinal):
 
         ordem = Clock.schedule_once(
-            partial(self.realiza_trade, sinal), self.tempo), sinal
+            partial(
+                self.realiza_trade,
+                sinal
+            ),
+            self.tempo
+        ), sinal
+
         self.ordens.append(ordem)
         # print(self.ordens[0][1])
         # sinal = sinal[:]
         # sinal.insert(0, self.tempo)
         # self.agenda.append(sinal)
         # self.salva_agenda(self.agenda)
-        print('agendar trade')
+        print('')
+
+    def bt_cancelar_trade(self):
+        for item in self.ordens:
+            Clock.unschedule(item[0])
+            print(f'cancleado trade {item[0]}')
+        self.ordens.clear()
 
     def salva_agenda(self, agenda):
         print('salva agenda')
         with open('agenda.json', 'w') as a:
             json.dump(agenda, a)
-
-    # -> Carrega o conteúdo da agenda sem o primeiro item
 
     def carrega_agenda(self):
         print('carrega agenda!')
@@ -358,12 +356,6 @@ class TelaTrade(Screen):
 
     # -> Cancela os trades agendados
 
-    def bt_cancelar_trade(self):
-        for item in self.ordens:
-            Clock.unschedule(item)
-        # self.mostra_agenda()
-        self.limpa_lista()
-
 
 class SinalTrade(BoxLayout):
     """Classe responsavel por cirar e gerenciar os elementos da lista de sinais"""
@@ -393,6 +385,15 @@ class Pop_up(Popup):
                       size_hint=(None, None), size=(400, 200))
         box.add_widget(Label(text=texto))
         box.add_widget(Button(text='OK', on_release=popup.dismiss))
+        popup.open()
+
+    def confirmacao(self, titulo, texto):
+        box = BoxLayout(orientation='vertical', padding=20, spacing=10)
+        popup = Popup(title=titulo, content=box,
+                      size_hint=(None, None), size=(400, 200))
+        box.add_widget(Label(text=texto))
+        box.add_widget(Button(text='Não', on_release=popup.dismiss))
+        box.add_widget(Button(text='Sim', on_release=popup.dismiss))
         popup.open()
 
 

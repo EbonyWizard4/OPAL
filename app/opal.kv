@@ -1,4 +1,5 @@
 #:kivy 2.0.0
+#:import Factory kivy.factory.Factory
 
 <Gerenciador>:
     TelaLogin:
@@ -592,3 +593,24 @@
     hint_text: '00'
     halign: 'center'
     input_filter: 'int'
+
+<Confirmar>:
+    auto_dismiss: False
+    title: 'buga'
+    size_hint: None, None
+    size: 400, 200
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+        Label:
+            text:'Isso irá cancelar todos os Trades agendados.\nDeseja continuar?'
+        BoxLayout:
+            spacing:10
+            orientation:'horizontal'
+            Button:
+                text:'SIM'
+                on_release: root.cancelar_trade()
+            Button:
+                text:'NÃO'
+                on_release:root.dismiss()

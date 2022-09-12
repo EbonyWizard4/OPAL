@@ -159,9 +159,11 @@ class TelaTrade(Screen):
 
     def on_pre_enter(self, *args):
         print('on pré enter')
+        self.ordens = []
+
         self.sinais = self.le_sinais()
         self.insere_widget(self.sinais)
-        self.ordens = []
+        self.bt_start_trade()
 
     def le_sinais(self):
         print('le sinais')
@@ -187,7 +189,6 @@ class TelaTrade(Screen):
 
     def on_pre_leave(self, *args):
         print('On pré Leave')
-        self.bt_cancelar_trade()
 
     def limpa_lista(self):
         print('limpa_lista')
@@ -256,10 +257,25 @@ class TelaTrade(Screen):
         print('')
 
     def bt_cancelar_trade(self):
+        """Cancela todos os trades agendados"""
+        box = BoxLayout(orientation='vertical', padding=20, spacing=10)
+        self.popup = Popup(title='Atenção!', content=box,
+                      size_hint=(None, None), size=(400, 200))
+        box.add_widget(Label(text='Isto cancelará todos os trades que foram agendados,\nDeseja realmente continuar?'))
+        box.add_widget(Button(text='Não', on_release=self.popup.dismiss))
+        box.add_widget(Button(text='Sim', on_release=self.cancelar_trade))
+        self.popup.open()
+        
+
+    def cancelar_trade(self,*args):
+        print('cancelar trade')
         for item in self.ordens:
             Clock.unschedule(item[0])
             print(f'cancleado trade {item[0]}')
         self.ordens.clear()
+        self.parent.current = 'TelaMenu'
+        self.popup.dismiss()
+        
 
     def salva_agenda(self, agenda):
         print('salva agenda')
@@ -375,7 +391,6 @@ class SinalTrade(BoxLayout):
         TelaTrade().atualiza_agenda(sinal)
         print("exclui sinal")
 
-
 class Pop_up(Popup):
     """Classe responsavel por criar os popup's com os textos definidos pelo chamado"""
 
@@ -393,8 +408,12 @@ class Pop_up(Popup):
                       size_hint=(None, None), size=(400, 200))
         box.add_widget(Label(text=texto))
         box.add_widget(Button(text='Não', on_release=popup.dismiss))
-        box.add_widget(Button(text='Sim', on_release=popup.dismiss))
+        box.add_widget(Button(text='Sim', on_release=TelaTrade().cancelar_trade))
         popup.open()
+
+    def continuar(self):
+        Popup.dismiss
+        print('até aqui foi!')
 
 
 class MyTextInput(TextInput):

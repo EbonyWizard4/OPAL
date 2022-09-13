@@ -550,22 +550,13 @@
             height: 60
             padding: 10
             spacing: 10
-            BoxLayout:
-                orientation:
-            Button:
-                text:'Menu'
-                on_release: root.parent.current='TelaMenu'
+            BoxLayout: #Botões
+                orientation: 'horizontal'
             Button:
                 text:'Stop Trade'
                 on_release: root.bt_cancelar_trade()
-            Button:
-                text:'Start Trade'
-                on_release: root.bt_start_trade()
-            Button:
-                text:'Inserir Sinais'
-                on_release: root.parent.current='TelaSinais'
-            BoxLayout:
-                orientation:
+            BoxLayout: #Botões
+                orientation: 'horizontal'
 
 <SinalTrade>:
     id: sinal_trade
@@ -594,23 +585,3 @@
     halign: 'center'
     input_filter: 'int'
 
-<Confirmar>:
-    auto_dismiss: False
-    title: 'buga'
-    size_hint: None, None
-    size: 400, 200
-    BoxLayout:
-        orientation: 'vertical'
-        padding: 20
-        spacing: 10
-        Label:
-            text:'Isso irá cancelar todos os Trades agendados.\nDeseja continuar?'
-        BoxLayout:
-            spacing:10
-            orientation:'horizontal'
-            Button:
-                text:'SIM'
-                on_release: root.cancelar_trade()
-            Button:
-                text:'NÃO'
-                on_release:root.dismiss()

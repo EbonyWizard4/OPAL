@@ -167,14 +167,14 @@ class TelaTrade(Screen):
 
     def le_sinais(self):
         print('le sinais')
-        self.sinais = OPAL().le_sinais()
-        if self.sinais == []:
+        sinais = OPAL().le_sinais()
+        if sinais == []:
             Pop_up().pop_up(
                 'Não há sinais na lista!',
                 'Por favor insira um sinal e tente novamente!',
             )
             self.para_TelaSinais()
-        return self.sinais
+        return sinais
 
     def insere_widget(self, sinais):
         print('insere widget')
@@ -183,8 +183,9 @@ class TelaTrade(Screen):
 
     def para_TelaSinais(self):
         """Troca para a tela de inserir sinais"""
-
         print('para_tela_sinais()')
+        self.sinais.clear()
+        self.limpa_lista()
         self.parent.current = 'TelaSinais'
 
     def on_pre_leave(self, *args):
@@ -265,7 +266,6 @@ class TelaTrade(Screen):
         box.add_widget(Button(text='Não', on_release=self.popup.dismiss))
         box.add_widget(Button(text='Sim', on_release=self.cancelar_trade))
         self.popup.open()
-        
 
     def cancelar_trade(self,*args):
         print('cancelar trade')
@@ -273,10 +273,10 @@ class TelaTrade(Screen):
             Clock.unschedule(item[0])
             print(f'cancleado trade {item[0]}')
         self.ordens.clear()
-        self.parent.current = 'TelaMenu'
+        self.limpa_lista()
         self.popup.dismiss()
+        self.parent.current = 'TelaMenu'
         
-
     def salva_agenda(self, agenda):
         print('salva agenda')
         with open('agenda.json', 'w') as a:

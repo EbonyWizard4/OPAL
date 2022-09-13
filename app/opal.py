@@ -18,9 +18,6 @@ kivy.require('1.0.6')  # replace with your current kivy version !
 class Gerenciador(ScreenManager):
     pass
 
-# Dispara o processo de login
-
-
 class TelaLogin(Screen):
     """Classe responsavel por fazer o login"""
 
@@ -46,9 +43,6 @@ class TelaLogin(Screen):
         self.ids.Login.text = ''
         self.ids.Senha.text = ''
 
-# Exibe dados do usuári e as telas do app
-
-
 class TelaApp(Screen):
     """Responsável pelos elementos fixos na tela como: nome e banca do usuário."""
 
@@ -58,9 +52,6 @@ class TelaApp(Screen):
         self.ids.Usuario.text = self.nome
         self.ids.Banca.text = self.banca
         self.ordens = []  # -> cria uma lista
-
-# Contem botões de acesso as telas do app
-
 
 class TelaMenu(Screen):
     """Permite escolher qual funcionalidade será acessada"""
@@ -72,9 +63,6 @@ class TelaMenu(Screen):
     # -> muda para tela de trade
     def trade(self):
         self.parent.current = 'TelaTrade'
-
-# Recebe os dados do sinal e chama a rotina de salvamento
-
 
 class TelaSinais(Screen):
     """Permite o preenchimento da lista de sinais"""
@@ -149,10 +137,6 @@ class TelaSinais(Screen):
     # - muda para tela de trade
     def trade(self):
         self.parent.current = 'TelaTrade'
-
-# Exibe as informações dos trades programados e realizados
-# e chama a rotina de execução.
-
 
 class TelaTrade(Screen):
     """Tela responsável por exibir a lista de sinais inseridos, agendar a execução e mostrar os resultados das orperações!"""
@@ -365,9 +349,6 @@ class TelaTrade(Screen):
     def para_TelaMenu(self):
         self.parent.current = 'TelaMenu'
 
-    # -> Cancela os trades agendados
-
-
 class SinalTrade(BoxLayout):
     """Classe responsavel por cirar e gerenciar os elementos da lista de sinais"""
 
@@ -410,7 +391,6 @@ class Pop_up(Popup):
         Popup.dismiss
         print('até aqui foi!')
 
-
 class MyTextInput(TextInput):
     """Classe responsavel por limitar o número de caracteres nos campos de texto
     permitindo apenas 2 caracteres númericos iteiros
@@ -421,7 +401,6 @@ class MyTextInput(TextInput):
         if len(self.text) > self.max_characters and self.max_characters > 0:
             substring = ''
         TextInput.insert_text(self, substring, from_undo)
-
 
 class MyTextInput_Hora(MyTextInput):
     """Classe responsável por validar a hora inserida"""
@@ -440,7 +419,6 @@ class MyTextInput_Hora(MyTextInput):
             pass
         return super()._on_textinput_focused(instance, value, *largs)
 
-
 class MyTextInput_Minuto(MyTextInput):
     """Classe responsável por validar o valor de minutos inserido"""
 
@@ -456,9 +434,6 @@ class MyTextInput_Minuto(MyTextInput):
         else:
             self.text = '00'
             pass
-
-# Chama as funções do robo e daas telas
-
 
 class OPAL(App):
     Robo = Robo()
@@ -496,7 +471,5 @@ class OPAL(App):
         resultado, lucro = self.Robo.resultado(id)
         return resultado, lucro
 
-
-# Linha que inicia o sistema
 if __name__ == '__main__':
     OPAL().run()

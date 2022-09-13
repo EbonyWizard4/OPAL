@@ -160,6 +160,7 @@ class TelaTrade(Screen):
     def on_pre_enter(self, *args):
         print('on pré enter')
         self.ordens = []
+        self.agenda = []
 
         self.sinais = self.le_sinais()
         self.insere_widget(self.sinais)
@@ -214,6 +215,7 @@ class TelaTrade(Screen):
             )
             self.parent.current = 'TelaSinais'
 
+        self.proximo_trade()
         # self.mostra_agenda()
         # -> printa a hora de cada sinal
         # for ordem in self.ordens:
@@ -248,14 +250,11 @@ class TelaTrade(Screen):
             ),
             self.tempo
         ), sinal
-
         self.ordens.append(ordem)
-        # print(self.ordens[0][1])
         # sinal = sinal[:]
         # sinal.insert(0, self.tempo)
         # self.agenda.append(sinal)
-        # self.salva_agenda(self.agenda)
-        print('')
+        print('agendar trade')
 
     def bt_cancelar_trade(self):
         """Cancela todos os trades agendados"""
@@ -320,14 +319,10 @@ class TelaTrade(Screen):
         print("Mostra Agenda")
 
     # -> Exibe o proximo trade na tela
-    def proximo_trade(self, agenda=[]):
-        #     print("proximo Trade")
-        #     try:
-        #         # print(agenda[0][0])
-        #         self.ids.HoraTrade.text = agenda[0][0]
-        #     except:
-        #         self.ids.HoraTrade.text = '--:--'
-        pass
+    def proximo_trade(self):
+        """Exibe o horário do proximo trade a ser executado"""
+        self.ids.HoraTrade.text = self.sinais[0][0]
+        print("proximo Trade")
 
     # -> abre a ordem de acordo com o sinal, agenda a leitura do resultado para o final do tempo.
     # -> remove o sinal da lista de trades e atualiza a agenda

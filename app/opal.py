@@ -364,7 +364,6 @@ class SinalTrade(BoxLayout):
             self.ids.box_sinal.remove_widget(self.ids.box_sinal.children[0])
         sinal = sinal[::-1]
         self.parent.remove_widget(self)
-        TelaTrade().atualiza_agenda(sinal)
         print("exclui sinal")
 
 class Pop_up(Popup):

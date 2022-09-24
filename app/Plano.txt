@@ -1,0 +1,40 @@
+#-> Rastrear sinal salvo para fazer o cancelamento individual.
+1. identificar os sinais na lista de ordens.
+2. criar metodo de exclusão individual
+
+#-> Atualizar dados da Tela ao fazer a exclusão de um sinal.
+
+#-> Para facilitar o entendimento e obtenção dos resultados esperados faz-se necessário um momento para organização do código.
+    1° - efetuado ordenação dos metodos da classe TelaTrade() por ordem de execução, como foi possível,
+    
+    2° - para melhor visualização da sequencia de execução, foi inserido metodo print() com o nome do metodo chamado no início de cada método.
+
+    3° - foi identificado redundâncias na chamada dos métodos:
+        start Trade!
+        le sinais
+        carrega agenda!
+        Le agenda
+        agendar trade
+        Le agenda
+        salva agenda
+        agendar trade
+        Le agenda
+        salva agenda...
+        Mostra Agenda
+        Le agenda
+        limpa_lista()
+        insere widget
+        proximo Trade
+
+    4° - como deveria ser o agendamento:
+        ler a lista de sinais.
+        calcular o tempo para cada um dos sinais.
+        fazer o agendamento de cada um dos sinais.
+        salva a lista de sinais como agendados.
+
+    5° - usar o código para rastrear uma ordem agendada:
+            # -> printa a hora de cada sinal
+            # for ordem in self.ordens:
+            #     print(ordem[1][0])
+    
+

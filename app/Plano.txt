@@ -1,5 +1,5 @@
 #-> Rastrear sinal salvo para fazer o cancelamento individual.
-1. remover sinais cancelados da lista de ordens
+1. remover sinais cancelados da lista de ordens ok
 
 #-> Atualizar dados da Tela ao fazer a exclusão de um sinal.
     ->

@@ -154,6 +154,9 @@ class TelaSinais(Screen):
     def trade(self):
         self.parent.current = 'TelaTrade'
 
+
+
+
 class TelaTrade(Screen):
     """Tela responsável por exibir a lista de sinais inseridos, agendar a execução e mostrar os resultados das orperações!"""
 
@@ -370,7 +373,13 @@ class TelaTrade(Screen):
         for item in self.ordens:
             if sinal == item[1]:
                 Clock.unschedule(item[0])
-                print(f'cancleado trade \n{item[0]}')
+                # chamada para remover sinal da lista de 
+                self.ordens.remove(item)
+                print(f'foi deletado o sinal \n{item}')
+        print(self.ordens)
+
+
+
 
 class SinalTrade(BoxLayout):
     """Classe responsavel por cirar e gerenciar os elementos da lista de sinais"""
@@ -409,7 +418,6 @@ class SinalTrade(BoxLayout):
             self.ids.box_sinal.remove_widget(self.ids.box_sinal.children[0])
         self.parent.remove_widget(self)
         print(f'\n{sinal}')
-
 
 class Pop_up(Popup):
     """Classe responsavel por criar os popup's com os textos definidos pelo chamado"""

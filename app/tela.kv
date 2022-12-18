@@ -1,8 +1,28 @@
 <Gerenciador>:
+    Tela3:
+    
+<Tela1>:
+    name: 'Tela1'
     BoxLayout:
+        padding:10
+        spacing:10
         Button:
-            text:'Agendar'
-            on_release: root.excluir()
+            text:'Tela1'
+            on_release: root.achei()
         Button:
-            text:'Agendar'
-            on_release: root.agendar()
+            text:'Tela2'
+            on_release: app.root.get_screen('Tela3').ids.sm.get_screen('Tela2').achei()
+        
+
+<Tela2>:
+    name: 'Tela2'
+
+<Tela3>:
+    name:'Tela3'
+    BoxLayout:
+        id: manger
+        padding: 10
+        ScreenManager:
+            id: sm
+            Tela1:
+            Tela2:

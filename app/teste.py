@@ -11,33 +11,22 @@ class Tela(App):
     def build(self):
         return Gerenciador()
 
-class Gerenciador(Screen):
+class Gerenciador(ScreenManager):
+    pass
 
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        self.sinal=[]
-        self.chave = 1
+class Tela1(Screen):
+    def achei(self):
+        print('achei Tla 1')
+    pass
 
-    
-    def contar(self, chave = 0):
+class Tela2(Screen):
+    def achei(self):
+        print('achei Tla 2')
+    pass
 
-        chave += 1
-        return chave
-
-    def agendar(self):
-        self.agendado = []
-        print(self.chave)
-        self.sinal.append(Clock.schedule_once(self.imprimir, 10))
-        print('agendar está funcionando!')
-        for item in enumerate(self.sinal):
-            self.agendado.append(datetime.now())
-        print('foi agendado: \n',self.agendado)
-        self.chave = self.contar(self.chave)
-
-    def excluir(self, chave=0):
-        Clock.unschedule(self.sinal[1])
-
-    def imprimir(self,*args):
-        print("imprimir está funcionando",datetime.now())
+class Tela3(Screen):
+    def achei(self):
+        print('achei Tla 3')
+    pass
 
 Tela().run()

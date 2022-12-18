@@ -31,6 +31,7 @@ class Gerenciador(ScreenManager):
         Args:
             ScreenManager (Screen): Recebe as Declarações de tela na linguagem KV. 
     """
+    
     pass
 
 class TelaLogin(Screen):
@@ -69,13 +70,13 @@ class TelaApp(Screen):
         self.ordens = []  # -> cria uma lista
 
 class TelaMenu(Screen):
-    """Permite escolher qual funcionalidade será acessada"""
+    """Permite escolher entre inserir sinais e iniciar as operações"""
 
-    # -> muda para tela sinais
+    # -> muda para tela de inserção de sinais
     def sinais(self):
         self.parent.current = 'TelaSinais'
 
-    # -> muda para tela de trade
+    # -> muda para tela de acompanhamento de trade em execução
     def trade(self):
         self.parent.current = 'TelaTrade'
 
@@ -250,6 +251,7 @@ class TelaTrade(Screen):
             self.tempo
         ), sinal
         self.ordens.append(ordem)
+        print(self.ordens)
         # sinal = sinal[:]
         # sinal.insert(0, self.tempo)
         # self.agenda.append(sinal)
@@ -364,6 +366,12 @@ class TelaTrade(Screen):
     def para_TelaMenu(self):
         self.parent.current = 'TelaMenu'
 
+    def cancela_sinal(self, sinal=[]):
+        for item in self.ordens:
+            if sinal == item[1]:
+                Clock.unschedule(item[0])
+                print(f'cancleado trade \n{item[0]}')
+
 class SinalTrade(BoxLayout):
     """Classe responsavel por cirar e gerenciar os elementos da lista de sinais"""
 
@@ -371,15 +379,37 @@ class SinalTrade(BoxLayout):
         super().__init__(**kwargs)
         for self.elemento in sinal:
             self.ids.box_sinal.add_widget(Label(text=str(self.elemento)))
+        pass
 
-    def exclui_sinal(self, sinal=[]):
+    def bt_X(self):
+       
+        """Pop-Up para confirmar o cancelamento"""
+        box = BoxLayout(orientation='vertical', padding=20, spacing=10)
+        self.popup = Popup(title='Atenção!', content=box,
+                      size_hint=(None, None), size=(500, 300))
+        box.add_widget(Label(text=f'Isto cancelará a execução deste trade.\nDeseja realmente continuar?'))
+        box.add_widget(Button(text='Não', on_release=self.popup.dismiss))
+        box.add_widget(Button(text='Sim', on_release=self.exclui_sinal))
+        self.popup.open()
+        
+    def exclui_sinal(self, *args):
+        sinal = []
+        i = 0
+        """Prepara o sinal"""
+        for widget in range(len(self.ids.box_sinal.children)):
+            sinal.append(self.ids.box_sinal.children[i].text)
+            i+=1
+        sinal = sinal[::-1]
+        self.parent.parent.parent.parent.parent.parent.cancela_sinal(sinal)
         sinal.clear()
+        self.popup.dismiss()     
+
         for widget in range(len(self.ids.box_sinal.children)):
             sinal.append(self.ids.box_sinal.children[0].text)
             self.ids.box_sinal.remove_widget(self.ids.box_sinal.children[0])
-        sinal = sinal[::-1]
         self.parent.remove_widget(self)
-        print("exclui sinal")
+        print(f'\n{sinal}')
+
 
 class Pop_up(Popup):
     """Classe responsavel por criar os popup's com os textos definidos pelo chamado"""
@@ -403,7 +433,6 @@ class Pop_up(Popup):
 
     def continuar(self):
         Popup.dismiss
-        print('até aqui foi!')
 
 class MyTextInput(TextInput):
     """Classe responsavel por limitar o número de caracteres nos campos de texto

@@ -1,8 +1,15 @@
 #-> Rastrear sinal salvo para fazer o cancelamento individual.
 1. identificar os sinais na lista de ordens.
-2. criar metodo de exclusão individual
+ -> identificado sinal por comparação textual com os textos do widget atraves de um loop for. ok
+2. criar metodo de exclusão individual:
+    -> identificado classe "TelaTrade" para uso do objeto Schedule salvo na lista de ordens através do encadeamento do atributo .parent dos widget ok
+    -> efetuado chamada para o metodo de cancelamento de agenda na classe "TelaTrade" através do encadeamento do atributo .parent ok
+    -> criação de pop-up para confirmar o cancelamento de agenda.
+    -> criação de metodo intermediário para execução do pop-up facilitando a passagem de argumentos entre classes ok
 
 #-> Atualizar dados da Tela ao fazer a exclusão de um sinal.
+    -> implementado a exclusão dos widget's relevantes na lista de sinais. ok
+    ->
 
 #-> Para facilitar o entendimento e obtenção dos resultados esperados faz-se necessário um momento para organização do código.
     1° - efetuado ordenação dos metodos da classe TelaTrade() por ordem de execução, como foi possível,

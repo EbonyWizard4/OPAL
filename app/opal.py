@@ -375,8 +375,7 @@ class TelaTrade(Screen):
                 Clock.unschedule(item[0])
                 # chamada para remover sinal da lista de 
                 self.ordens.remove(item)
-                print(f'foi deletado o sinal \n{item}')
-        print(self.ordens)
+        self.proximo_trade()        
 
 
 

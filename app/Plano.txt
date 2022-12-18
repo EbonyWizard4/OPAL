@@ -2,7 +2,8 @@
 1. remover sinais cancelados da lista de ordens ok
 
 #-> Atualizar dados da Tela ao fazer a exclusão de um sinal.
-    ->
+    -> Ordenar os widget's da lista de trade por ordem de execução
+    -> Atulaizar valor da caixa Proximo Trade quando excluir um trade da lista
 
 #-> Para facilitar o entendimento e obtenção dos resultados esperados faz-se necessário um momento para organização do código.
     1° - efetuado ordenação dos metodos da classe TelaTrade() por ordem de execução, como foi possível,

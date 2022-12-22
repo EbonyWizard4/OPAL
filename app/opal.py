@@ -161,16 +161,25 @@ class TelaTrade(Screen):
     """Tela responsável por exibir a lista de sinais inseridos, agendar a execução e mostrar os resultados das orperações!"""
 
     def on_pre_enter(self, *args):
-        print('on pré enter')
         self.ordens = []
         self.agenda = []
-
         self.sinais = self.le_sinais()
+        self.ordena_lista()
+        # sorted(self.sinais, key=lambda sinais: [7])
+        print(self.sinais)
+        # self.bt_start_trade()
+
         self.insere_widget(self.sinais)
-        self.bt_start_trade()
+
+    def ordena_lista(self):
+        for sinal in self.sinais:
+            tempo = self.calcular_tempo(sinal)
+            sinal.insert(0,tempo)
+        self.sinais.sort()    
+        for sinal in self.sinais:
+            sinal.pop(0)
 
     def le_sinais(self):
-        print('le sinais')
         sinais = OPAL().le_sinais()
         if sinais == []:
             Pop_up().pop_up(
@@ -181,7 +190,6 @@ class TelaTrade(Screen):
         return sinais
 
     def insere_widget(self, sinais):
-        print('insere widget')
         for sinal in sinais:
             self.ids.Lista.add_widget(SinalTrade(sinal))
 
@@ -209,6 +217,7 @@ class TelaTrade(Screen):
         """Inicia a execução dos Trades!"""
         if self.sinais != []:
             for sinal in self.sinais:
+                sinal.pop(0)
                 self.tempo = self.calcular_tempo(sinal)
                 self.agendar_trade(sinal)
         else:

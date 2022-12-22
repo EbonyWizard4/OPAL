@@ -5,6 +5,7 @@
     |-> Ordenar os widget's da lista de trade por ordem de execução
         ~>criado metodo que ordena lista por ordem de execução.
         ~>identificado falha no calculo do tempo para execução quando o horário de execução é '00:00'
+        ->Correção da falha no calculo do tempo quando o horário de execução é '00:00'
     -> Atulaizar valor da caixa Proximo Trade quando excluir um trade da lista
 
 #-> Para facilitar o entendimento e obtenção dos resultados esperados faz-se necessário um momento para organização do código.

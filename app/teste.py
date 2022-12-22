@@ -1,32 +1,19 @@
-from distutils.command.build import build
-import imp
-import kivy
-from kivy.clock import Clock
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.app import App
-from functools import partial
-from datetime import datetime
+from datetime import datetime, timedelta
 
-class Tela(App):
-    def build(self):
-        return Gerenciador()
 
-class Gerenciador(ScreenManager):
-    pass
 
-class Tela1(Screen):
-    def achei(self):
-        print('achei Tla 1')
-    pass
+def calcula_tempo():
+    hora_atual = datetime.strptime(datetime.strftime(datetime.now(), "%H:%M:%S"), "%H:%M:%S")
 
-class Tela2(Screen):
-    def achei(self):
-        print('achei Tla 2')
-    pass
+    hora_sinal = datetime.strptime('07:00:00', "%H:%M:%S")
+    print(hora_atual)
+    print(hora_sinal)
+    tempo = timedelta.total_seconds(hora_sinal - hora_atual) 
+    if tempo <=0:
+        tempo = tempo + 86400
+        return tempo
+    return tempo
 
-class Tela3(Screen):
-    def achei(self):
-        print('achei Tla 3')
-    pass
+tempo = calcula_tempo()
 
-Tela().run()
+print(tempo)

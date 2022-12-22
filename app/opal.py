@@ -165,13 +165,11 @@ class TelaTrade(Screen):
         self.agenda = []
         self.sinais = self.le_sinais()
         self.ordena_lista()
-        # sorted(self.sinais, key=lambda sinais: [7])
-        print(self.sinais)
-        # self.bt_start_trade()
-
+        self.bt_start_trade()
         self.insere_widget(self.sinais)
 
     def ordena_lista(self):
+        """Ordena a Lista Pelo horário de execução"""
         for sinal in self.sinais:
             tempo = self.calcular_tempo(sinal)
             sinal.insert(0,tempo)
@@ -235,22 +233,23 @@ class TelaTrade(Screen):
         print('start Trade!')
 
     def calcular_tempo(self, sinal) -> int:
-        dia = 68400
+        """Calcula os segundo para Execução do sinal"""
+        dia = 86400
         # -> captura a hora atual
-        hora = datetime.strftime(datetime.now(), "%H:%M:%S")
-        tempo = timedelta.total_seconds(
-            datetime.strptime(
-                sinal[0] + ':00',
-                '%H:%M:%S'
-            ) - datetime.strptime(
-                hora,
-                '%H:%M:%S'
+        hora_atual = datetime.strptime(
+            datetime.strftime(datetime.now(),"%H:%M:%S"), "%H:%M:%S"
             )
-        ) - 1
+        hora_sinal = datetime.strptime(
+            sinal[0]+':00','%H:%M:%S'
+            )
+        tempo = timedelta.total_seconds(
+            hora_sinal - hora_atual
+            ) - 1
         if tempo <= 0:
             tempo = tempo + dia
         else:
             pass
+        print(tempo)
         return tempo
 
     def agendar_trade(self, sinal):

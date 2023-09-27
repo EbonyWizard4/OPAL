@@ -7,7 +7,7 @@ class Robo():
     def singin(self, email='', senha=''):
         """Faz o login na plataforma IQ_Option"""
 
-        self.API = IQ_Option("antonio.jhone@hotmail.com", "Krishinna@1")
+        self.API = IQ_Option("e-mail", "senha")
         self.check, self.reason = self.API.connect()
 
         if self.check:
